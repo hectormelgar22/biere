@@ -7,6 +7,9 @@ declare global {
 window.__biere = true;
 
 const root = document.documentElement;
+/** Ejecuta trabajo no urgente cuando el navegador está libre (reparte la carga inicial). */
+const enReposo = (fn: () => void) =>
+  'requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 200);
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 /* ---------- Cabecera: fondo sólido al hacer scroll (sin leer el scroll en cada frame) ---------- */
@@ -43,11 +46,16 @@ function closeMenu() {
 if (menu && menuOpen) {
   menuOpen.addEventListener('click', () => {
     menu.showModal();
+    root.classList.add('menu-abierto');
     menuOpen.setAttribute('aria-expanded', 'true');
   });
   menu.querySelector('[data-menu-close]')?.addEventListener('click', closeMenu);
   menu.addEventListener('cancel', (e) => { e.preventDefault(); closeMenu(); });
-  menu.addEventListener('close', () => { menuOpen.setAttribute('aria-expanded', 'false'); menuOpen.focus(); });
+  menu.addEventListener('close', () => {
+    root.classList.remove('menu-abierto');
+    menuOpen.setAttribute('aria-expanded', 'false');
+    menuOpen.focus();
+  });
   menu.querySelectorAll<HTMLAnchorElement>('[data-menu-link]').forEach((a) => {
     a.addEventListener('click', () => {
       // Cierra sin animación para que el scroll al ancla sea inmediato.
@@ -109,7 +117,7 @@ if ('IntersectionObserver' in window && !reduceMotion.matches) {
 
 /* ---------- Carta: pestañas accesibles ---------- */
 const carta = document.querySelector<HTMLElement>('[data-carta]');
-if (carta) {
+if (carta) enReposo(() => {
   const tablist = carta.querySelector<HTMLElement>('[data-carta-tabs]')!;
   const tabs = Array.from(tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
   const panels = Array.from(carta.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
@@ -169,16 +177,18 @@ if (carta) {
   document.querySelectorAll<HTMLAnchorElement>('[data-carta-ir]').forEach((a) => {
     a.addEventListener('click', () => select(a.dataset.cartaIr!));
   });
-}
+});
 
 /* ---------- Abierto / cerrado ahora (hora de Cuenca) ---------- */
 type Dia = { dia: string; tramos: string[][] };
 const dias = negocio.horario.dias as Dia[];
 
+let reloj: Intl.DateTimeFormat | undefined;
 function ahoraEnCuenca() {
-  const parts = new Intl.DateTimeFormat('en-GB', {
+  reloj ??= new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Europe/Madrid', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false,
-  }).formatToParts(new Date());
+  });
+  const parts = reloj.formatToParts(new Date());
   const get = (t: string) => parts.find((p) => p.type === t)?.value ?? '';
   const wd = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(get('weekday'));
   const mins = (parseInt(get('hour'), 10) % 24) * 60 + parseInt(get('minute'), 10);
@@ -205,6 +215,7 @@ function estado() {
 function pintarEstado() {
   const e = estado();
   const { wd } = ahoraEnCuenca();
+
   document.querySelectorAll<HTMLElement>('[data-estado]').forEach((el) => {
     el.hidden = false;
     el.classList.toggle('is-open', e.abierto);
@@ -216,7 +227,8 @@ function pintarEstado() {
     tr.classList.toggle('is-today', Number(tr.dataset.dia) === wd);
   });
 }
-pintarEstado();
-setInterval(pintarEstado, 60_000);
+enReposo(() => {
+  pintarEstado();
+  setInterval(pintarEstado, 60_000);
+});
 
-root.classList.add('is-ready');

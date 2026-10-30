@@ -1,7 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import mapa from '../assets/svg/mapa-zona.svg?raw';
-import { negocio, tramosTexto } from '../lib/site';
+import { negocio, tramosTexto, url } from '../lib/site';
 
 const dias = negocio.horario.dias;
 ---
@@ -47,7 +46,15 @@ const dias = negocio.horario.dias;
 
     <div class="visita__mapa" data-reveal>
       <a class="mapa" href={negocio.enlaces.googleMaps} target="_blank" rel="noopener">
-        <Fragment set:html={mapa.replace('<svg ', '<svg class="mapa__svg" ').replace('class="mapa-zona" ', '')} />
+        <img
+          class="mapa__svg"
+          src={url('mapa-zona.svg')}
+          width="960"
+          height="640"
+          loading="lazy"
+          decoding="async"
+          alt="Mapa de la zona: BIÉRE está en la calle Dalmacio García Izcara, 9, a unos 300 metros de la estación de autobuses de Cuenca."
+        />
         <span class="mapa__cta"><Icon name="externo" /> Abrir en Google Maps<span class="sr-only"> (se abre en otra pestaña)</span></span>
       </a>
       <p class="mapa__credit">Mapa dibujado con datos de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© colaboradores de OpenStreetMap</a>.</p>
