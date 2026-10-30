@@ -1,0 +1,46 @@
+---
+import { horarioResumen, negocio, url } from '../lib/site';
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <svg class="footer__mark" role="img" aria-label="BIÉRE" focusable="false"><use href="#logo-biere" /></svg>
+        <p class="display footer__lema">{negocio.lema}</p>
+      </div>
+      <div class="footer__cols">
+        <div class="footer__col">
+          <h2>Dónde</h2>
+          <ul role="list">
+            <li><a href={negocio.enlaces.googleMaps} target="_blank" rel="noopener">{negocio.direccion.calle}<br />{negocio.direccion.codigoPostal} {negocio.direccion.ciudad}</a></li>
+            <li><a href={negocio.enlaces.comoLlegar} target="_blank" rel="noopener">Cómo llegar</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h2>Contacto</h2>
+          <ul role="list">
+            <li><a href={`tel:${negocio.telefono.enlace}`}>{negocio.telefono.visible}</a></li>
+            <li><a href={negocio.enlaces.instagram} target="_blank" rel="noopener">Instagram {negocio.enlaces.instagramUsuario}</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h2>Pide</h2>
+          <ul role="list">
+            <li><a href={negocio.enlaces.glovo} target="_blank" rel="noopener">A domicilio en Glovo</a></li>
+            <li><a href={negocio.enlaces.justEat} target="_blank" rel="noopener">Para recoger en Just Eat</a></li>
+            <li><a href={url('#carta')}>Ver la carta</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h2>Horario</h2>
+          <p>{horarioResumen()}</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© {year} BIÉRE · Bar y cocina venezolana en Cuenca</p>
+      <p><a href={url('aviso-legal/')}>Aviso legal y privacidad</a> · Fotos: BIÉRE · Mapa: © OpenStreetMap</p>
+    </div>
+  </div>
+</footer>

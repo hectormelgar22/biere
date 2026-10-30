@@ -1,0 +1,20 @@
+{
+  "_instrucciones": "Reseñas reales copiadas de Google (texto literal o extracto). No añadas reseñas inventadas.",
+  "resenas": [
+    {
+      "texto": "Probamos las arepas y estaban deliciosas: muy bien hechas, con ingredientes de calidad y mucho sabor. Además, la atención fue excelente, nos hicieron sentir como en casa.",
+      "autor": "Vanesa",
+      "fuente": "Google"
+    },
+    {
+      "texto": "El trato de los camareros fue estupendo, muy amables y atentos. La comida estaba buenísima y las raciones son bastante generosas.",
+      "autor": "El Puma",
+      "fuente": "Google"
+    },
+    {
+      "texto": "Me encantó venir a Biére, la atención es muy buena, el ambiente agradable y la comida riquísima, la salsa de ajo es espectacular!!",
+      "autor": "Mafalda O.",
+      "fuente": "Google"
+    }
+  ]
+}

@@ -1,0 +1,133 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Anotacion from './Anotacion.astro';
+import { foto, url } from '../lib/site';
+
+// Cada plato: foto real de BIÉRE con anotaciones a mano (ingredientes de su carta).
+const platos = [
+  {
+    id: 'arepas',
+    nombre: 'Arepas',
+    clase: 'plato--arepas plato--left',
+    foto: 'arepa-queso-de-mano',
+    alt: 'Arepa con queso de mano junto a una lata de Maltín, la malta venezolana.',
+    widths: [420, 720, 1000],
+    sizes: '(min-width: 1024px) 55vw, 100vw',
+    texto: 'Masa de maíz dorada y relleno generoso. La Reina Pepiada es la favorita de la casa, pero también hay pelúa, catira, sifrina, de chistorra o con queso de mano.',
+    tags: ['Reina Pepiada', 'Pelúa', 'Catira', 'Sifrina', 'Queso de mano'],
+    anotaciones: [
+      { texto: 'queso de mano', x: '62%', y: '90%', dir: 'ul', rotar: '-4deg' },
+      { texto: 'Maltín, la malta venezolana', x: '44%', y: '9%', dir: 'dl', rotar: '-3deg', retardo: '0.3s', ocultarMovil: true },
+    ],
+    categoria: 'arepas',
+  },
+  {
+    id: 'tequenos',
+    nombre: 'Tequeños',
+    clase: 'plato--tequenos plato--right',
+    foto: 'tequenos',
+    alt: 'Plato de tequeños dorados en BIÉRE.',
+    widths: [420, 830],
+    sizes: '(min-width: 1024px) 52vw, 100vw',
+    texto: 'Palitos de masa crujiente con queso fundido dentro. De queso o de pizza y, para el postre, de Nutella. Suelen desaparecer en segundos.',
+    tags: ['De queso', 'De pizza', 'De Nutella'],
+    anotaciones: [
+      { texto: 'queso fundido dentro', x: '4%', y: '8%', dir: 'dr', rotar: '-4deg' },
+    ],
+    categoria: 'tequenos',
+  },
+  {
+    id: 'empanadas',
+    nombre: 'Empanadas',
+    clase: 'plato--mesa plato--left plato--small',
+    foto: 'mesa-para-compartir',
+    alt: 'Mesa de BIÉRE con platos venezolanos, salsas caseras y bebidas.',
+    widths: [420, 720, 1100],
+    sizes: '(min-width: 1024px) 40vw, 100vw',
+    texto: 'Empanadas de masa dorada y crujiente (ternera mechada, pollo mechado o jamón y queso) con salsa de ajo casera para mojar. Pide varias cosas al centro: así se come aquí.',
+    tags: ['Empanadas', 'Guasacaca', 'Salsa de ajo'],
+    anotaciones: [
+      { texto: 'salsas caseras', x: '5%', y: '5%', dir: 'dr', rotar: '-4deg', ancho: '6rem', girar: '-8deg' },
+    ],
+    categoria: 'empanadas',
+  },
+  {
+    id: 'cachapas',
+    nombre: 'Cachapas',
+    clase: 'plato--cachapa plato--right',
+    foto: 'cachapa',
+    alt: 'Cachapa dorada de maíz tierno doblada sobre queso de mano, en una tabla de madera.',
+    widths: [420, 720, 955],
+    sizes: '(min-width: 1024px) 55vw, 100vw',
+    texto: 'Tortita de maíz tierno, dulce y dorada, doblada sobre queso de mano. Si vienes con hambre, pídela con cochino frito.',
+    tags: ['Con queso', 'Con cochino frito'],
+    anotaciones: [
+      { texto: 'maíz tierno', x: '72%', y: '5%', dir: 'dl', rotar: '-5deg' },
+      { texto: 'queso de mano', x: '64%', y: '80%', dir: 'ul', rotar: '3deg', retardo: '0.3s', ocultarMovil: true },
+    ],
+    categoria: 'cachapas',
+  },
+  {
+    id: 'hamburguesas',
+    nombre: 'Hamburguesas',
+    clase: 'plato--burger plato--left plato--small',
+    foto: 'hamburguesa',
+    alt: 'Hamburguesa con queso fundido, tomate y lechuga, con patatas, en BIÉRE.',
+    widths: [420, 720, 1100],
+    sizes: '(min-width: 1024px) 40vw, 100vw',
+    texto: 'De ternera, de pollo o mixta, con patatas. ¿Algo distinto? La Arepa Burger: aquí la arepa hace de pan.',
+    tags: ['Arepa Burger', 'Ternera', 'Pollo', 'Mixta'],
+    anotaciones: [
+      { texto: 'queso fundido', x: '5%', y: '16%', dir: 'dr', rotar: '-5deg', ancho: '5rem', girar: '24deg' },
+    ],
+    categoria: 'hamburguesas',
+  },
+];
+---
+<section class="section platos" id="imprescindibles" aria-labelledby="platos-title">
+  <div class="wrap">
+    <header class="platos__head">
+      <div>
+        <p class="eyebrow">De la cocina</p>
+        <h2 id="platos-title" class="display h2" data-reveal="line">
+          <span class="line"><span style="--l:0">Los</span></span>
+          <span class="line"><span style="--l:1">imprescindibles</span></span>
+        </h2>
+      </div>
+      <p class="lead" data-reveal>Lo que pediríamos nosotros si fuera tu primera vez en BIÉRE.</p>
+    </header>
+
+    {platos.map((p) => (
+      <article class:list={['plato', p.clase]} id={`plato-${p.id}`} aria-labelledby={`plato-${p.id}-title`}>
+        <figure class="plato__media" data-reveal-img>
+          <div class="frame frame--velo shutter drift">
+            <Picture
+              src={foto(p.foto)}
+              formats={['avif', 'webp']}
+              widths={p.widths}
+              sizes={p.sizes}
+              quality={70}
+              loading="lazy"
+              decoding="async"
+              alt={p.alt}
+            />
+          </div>
+          {p.anotaciones.map((a) => <Anotacion {...a} />)}
+        </figure>
+        <div class="plato__body">
+          <h3 id={`plato-${p.id}-title`} class="display plato__name" data-reveal="line">
+            <span class="line"><span>{p.nombre}</span></span>
+          </h3>
+          <p class="plato__text" data-reveal>{p.texto}</p>
+          <ul class="plato__tags" role="list" aria-label="Variedades" data-reveal>
+            {p.tags.map((t) => <li>{t}</li>)}
+          </ul>
+          <a class="text-link" href={url('#carta')} data-carta-ir={p.categoria} data-reveal>
+            Ver en la carta <Icon name="flecha" />
+          </a>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

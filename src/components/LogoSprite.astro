@@ -1,0 +1,9 @@
+---
+// Define el logotipo una sola vez; se reutiliza con <use href="#logo-biere">.
+import logoPath from '../assets/svg/logo-path.txt?raw';
+---
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="logo-biere" viewBox="180 176 1784 1904">
+    <path fill="currentColor" fill-rule="evenodd" d={logoPath.trim()} />
+  </symbol>
+</svg>

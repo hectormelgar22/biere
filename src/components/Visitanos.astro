@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+import mapa from '../assets/svg/mapa-zona.svg?raw';
+import { negocio, tramosTexto } from '../lib/site';
+
+const dias = negocio.horario.dias;
+---
+<section class="section visita" id="visitanos" aria-labelledby="visita-title">
+  <div class="wrap visita__grid">
+    <div class="visita__info">
+      <p class="eyebrow">Visítanos</p>
+      <h2 id="visita-title" class="display visita__title" data-reveal="line">
+        <span class="line"><span style="--l:0">C. Dalmacio</span></span>
+        <span class="line"><span style="--l:1">García Izcara, 9</span></span>
+      </h2>
+      <p class="visita__ref">
+        {negocio.direccion.codigoPostal} {negocio.direccion.ciudad} · {negocio.direccion.referencia}.
+      </p>
+      <div class="btn-row visita__actions">
+        <a class="btn btn--cana" href={negocio.enlaces.comoLlegar} target="_blank" rel="noopener">
+          <Icon name="pin" class="btn__icon" /> Cómo llegar<span class="sr-only"> (Google Maps, se abre en otra pestaña)</span>
+        </a>
+        <a class="btn btn--ghost" href={`tel:${negocio.telefono.enlace}`}>
+          <Icon name="telefono" class="btn__icon" /> Llamar al {negocio.telefono.visible}
+        </a>
+      </div>
+
+      <div class="horario">
+        <div class="horario__head">
+          <h3 class="horario__title">Horario</h3>
+          <p class="estado" data-estado hidden><span class="estado__dot" aria-hidden="true"></span><span data-estado-label></span></p>
+        </div>
+        <table class="horario__tabla" data-horario>
+          <caption class="sr-only">Horario de apertura de BIÉRE</caption>
+          <tbody>
+            {dias.map((d, i) => (
+              <tr data-dia={(i + 1) % 7}>
+                <th scope="row">{d.dia}</th>
+                <td>{tramosTexto(d.tramos)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p class="horario__fuente">Horario de la ficha de Google de BIÉRE. {negocio.horario.nota}</p>
+      </div>
+    </div>
+
+    <div class="visita__mapa" data-reveal>
+      <a class="mapa" href={negocio.enlaces.googleMaps} target="_blank" rel="noopener">
+        <Fragment set:html={mapa.replace('<svg ', '<svg class="mapa__svg" ').replace('class="mapa-zona" ', '')} />
+        <span class="mapa__cta"><Icon name="externo" /> Abrir en Google Maps<span class="sr-only"> (se abre en otra pestaña)</span></span>
+      </a>
+      <p class="mapa__credit">Mapa dibujado con datos de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© colaboradores de OpenStreetMap</a>.</p>
+    </div>
+  </div>
+</section>

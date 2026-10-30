@@ -1,0 +1,129 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import carta from '../data/carta.json';
+import { foto, negocio } from '../lib/site';
+
+type Producto = (typeof carta.categorias)[number]['productos'][number] & { grupo?: string; detalle?: string };
+
+// Agrupa los productos que tienen "grupo" (p. ej. Bebidas: Cervezas / De la casa / Sin alcohol).
+function agrupar(productos: Producto[]) {
+  const grupos: { nombre: string | null; productos: Producto[] }[] = [];
+  for (const p of productos) {
+    const nombre = p.grupo ?? null;
+    let g = grupos.find((x) => x.nombre === nombre);
+    if (!g) grupos.push((g = { nombre, productos: [] }));
+    g.productos.push(p);
+  }
+  return grupos;
+}
+
+const destacadas = new Set(['La favorita de la casa', 'Novedad']);
+---
+<section class="section carta" id="carta" aria-labelledby="carta-title">
+  <div class="wrap">
+    <header class="carta__head">
+      <div>
+        <p class="eyebrow">La carta</p>
+        <h2 id="carta-title" class="display h2" data-reveal="line">
+          <span class="line"><span style="--l:0">¿Qué te</span></span>
+          <span class="line"><span style="--l:1">provoca?</span></span>
+        </h2>
+      </div>
+      <p class="carta__note" data-reveal>
+        <Icon name="info" />
+        <span><strong>¿Y los precios?</strong> {carta.notaPrecios}</span>
+      </p>
+    </header>
+
+    <div class="carta__layout" data-carta>
+      <div class="carta-tabs">
+        <div class="carta-tabs__list" role="tablist" aria-label="Categorías de la carta" data-carta-tabs>
+          {carta.categorias.map((c, i) => (
+            <button
+              class="carta-tab"
+              type="button"
+              role="tab"
+              id={`tab-${c.id}`}
+              aria-controls={`panel-${c.id}`}
+              aria-selected={i === 0 ? 'true' : 'false'}
+              tabindex={i === 0 ? 0 : -1}
+              data-cat={c.id}
+            >
+              {c.corto ?? c.nombre}<span class="carta-tab__count" aria-hidden="true">{c.productos.length}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div class="carta__panels">
+        {carta.categorias.map((c, i) => (
+          <div
+            class="carta-panel"
+            role="tabpanel"
+            id={`panel-${c.id}`}
+            aria-labelledby={`tab-${c.id}`}
+            tabindex="0"
+            data-panel={c.id}
+            data-hidden-on-js={i === 0 ? undefined : ''}
+          >
+            <div class:list={['carta-panel__head', { 'has-img': c.imagen }]}>
+              <div style="--i:0">
+                <h3 class="display carta-panel__title">{c.nombre}</h3>
+                <p class="carta-panel__intro">{c.intro}</p>
+                {c.nota && <p class="carta-panel__nota">{c.nota}</p>}
+              </div>
+              {c.imagen && (
+                <div class="frame carta-panel__img" style="--i:1">
+                  <Picture
+                    src={foto(c.imagen)}
+                    formats={['avif', 'webp']}
+                    widths={[360, 640]}
+                    sizes="(min-width: 1024px) 28vw, (min-width: 720px) 42vw, 100vw"
+                    quality={66}
+                    loading="lazy"
+                    decoding="async"
+                    alt=""
+                  />
+                </div>
+              )}
+            </div>
+
+            {agrupar(c.productos as Producto[]).map((g) => (
+              <div class="carta-group">
+                {g.nombre && <h4 class="carta-group__title">{g.nombre}</h4>}
+                <ul class="carta-items" role="list">
+                  {g.productos.map((p, j) => (
+                    <li class="carta-item" style={`--i:${j + 2}`}>
+                      <div class="carta-item__top">
+                        <span class="carta-item__name">{p.nombre}</span>
+                        {p.precio && <span class="carta-item__price">{p.precio}</span>}
+                      </div>
+                      <p class="carta-item__desc">{p.descripcion}</p>
+                      {(p.detalle || p.etiquetas.length > 0 || p.disponible === 'consultar') && (
+                        <p class="carta-item__meta">
+                          {p.etiquetas.map((t) => <span class:list={['tag', { 'tag--cana': destacadas.has(t) }]}>{t}</span>)}
+                          {p.disponible === 'consultar' && <span class="tag tag--consultar">Pregunta si hay</span>}
+                          {p.detalle && <span class="tag tag--detalle">{p.detalle}</span>}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="carta__foot">
+      <p>En el local hay además menú del día y platos fuera de carta. Si tienes alguna alergia o intolerancia, pregunta al equipo antes de pedir o llama al {negocio.telefono.visible}.</p>
+      <div class="btn-row">
+        <a class="btn btn--cana" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
+          Pedir en Glovo <Icon name="flecha" class="btn__icon" /><span class="sr-only"> (se abre en otra pestaña)</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

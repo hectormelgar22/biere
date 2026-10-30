@@ -1,0 +1,142 @@
+{
+  "_instrucciones": "Edita aquí la carta. 'precio' admite un texto como \"9,50 €\" o null (no se muestra). 'disponible': \"si\" o \"consultar\" (muestra la etiqueta 'Pregunta si hay'). 'fuentes' es solo para control interno.",
+  "notaPrecios": "Los precios del local, en barra. Los de domicilio, en Glovo al hacer el pedido.",
+  "categorias": [
+    {
+      "id": "arepas",
+      "nombre": "Arepas",
+      "intro": "Masa de maíz dorada y suave, con el relleno que elijas.",
+      "nota": "A domicilio se sirven en combo con refresco o malta.",
+      "imagen": null,
+      "productos": [
+        { "nombre": "Reina Pepiada", "descripcion": "Pollo desmenuzado, aguacate fresco y un toque de mayonesa.", "etiquetas": ["La favorita de la casa"], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat", "instagram"] },
+        { "nombre": "Sifrina", "descripcion": "La Reina Pepiada, con queso.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Catira", "descripcion": "Pollo mechado y queso rallado.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Pelúa", "descripcion": "Ternera mechada y queso.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Pollo mechado", "descripcion": "Rellena de pollo mechado.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Ternera mechada", "descripcion": "Rellena de carne de ternera mechada.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Jamón y queso", "descripcion": "Queso fundido y jamón.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Chistorra", "descripcion": "Chistorra y queso rallado.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Queso de mano", "descripcion": "Arepa con queso fresco de mano.", "etiquetas": ["En el local"], "precio": null, "disponible": "si", "fuentes": ["instagram"] }
+      ]
+    },
+    {
+      "id": "tequenos",
+      "nombre": "Tequeños y mandocas",
+      "corto": "Tequeños",
+      "intro": "Para picar mientras llega lo demás (si llegan a la mesa enteros).",
+      "nota": null,
+      "imagen": null,
+      "productos": [
+        { "nombre": "Tequeños de queso", "descripcion": "Queso fundido envuelto en masa crujiente.", "detalle": "6 unidades", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Tequeños de pizza", "descripcion": "Queso fundido, tomate y orégano en masa crujiente.", "detalle": "6 unidades", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["justeat"] },
+        { "nombre": "Mandocas", "descripcion": "Palitos crujientes de plátano rellenos de queso fundido.", "detalle": "8 unidades", "etiquetas": [], "precio": null, "disponible": "consultar", "fuentes": ["justeat"] },
+        { "nombre": "Jojoticos", "descripcion": "Deditos de queso recubiertos de maíz tierno dulce.", "detalle": "8 unidades", "etiquetas": [], "precio": null, "disponible": "consultar", "fuentes": ["justeat"] }
+      ]
+    },
+    {
+      "id": "empanadas",
+      "nombre": "Empanadas",
+      "intro": "Masa dorada y crujiente, con salsa de ajo casera para mojar.",
+      "nota": "A domicilio van en combo de tres, con salsa de ajo y bebida.",
+      "imagen": null,
+      "productos": [
+        { "nombre": "Ternera mechada", "descripcion": "Rellena de carne de ternera mechada.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Pollo mechado", "descripcion": "Rellena de pollo mechado.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Jamón y queso", "descripcion": "Rellena de queso fundido y jamón.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] }
+      ]
+    },
+    {
+      "id": "cachapas",
+      "nombre": "Cachapas",
+      "intro": "Tortita de maíz tierno, dulce y dorada, con queso de mano.",
+      "nota": null,
+      "imagen": null,
+      "productos": [
+        { "nombre": "Cachapa con queso", "descripcion": "Maíz tierno y queso de mano fresco y cremoso.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["justeat", "instagram"] },
+        { "nombre": "Cachapa con queso y cochino frito", "descripcion": "Con cerdo frito jugoso y queso de mano.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["justeat"] }
+      ]
+    },
+    {
+      "id": "hamburguesas",
+      "nombre": "Hamburguesas y Arepa Burger",
+      "corto": "Hamburguesas",
+      "intro": "Las de siempre, con patatas. Y una que solo podía salir de aquí: la arepa hace de pan.",
+      "nota": null,
+      "imagen": null,
+      "productos": [
+        { "nombre": "Arepa Burger de pollo", "descripcion": "Arepa asada con pollo, pollo mechado, jamón, queso, bacon, lechuga, aguacate y mayonesa.", "etiquetas": ["Novedad"], "precio": null, "disponible": "si", "fuentes": ["glovo", "instagram"] },
+        { "nombre": "Arepa Burger de ternera", "descripcion": "Arepa asada con carne de hamburguesa, ternera mechada, jamón, queso, bacon y lechuga.", "etiquetas": ["Novedad"], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "nombre": "Hamburguesa de ternera", "descripcion": "Carne de ternera, lechuga, tomate y queso. Con patatas.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Hamburguesa de pollo", "descripcion": "Pollo empanado, lechuga, tomate y queso. Con patatas.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Hamburguesa mixta", "descripcion": "Ternera y cerdo, lechuga, tomate y queso. Con patatas.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "La Quinta Torre", "descripcion": "La hamburguesa grande de la casa. Pregunta por ella en barra.", "etiquetas": ["En el local"], "precio": null, "disponible": "si", "fuentes": ["instagram"] }
+      ]
+    },
+    {
+      "id": "pepito",
+      "nombre": "Pepito y bocadillos",
+      "corto": "Bocadillos",
+      "intro": "Pan con mucho dentro.",
+      "nota": null,
+      "imagen": null,
+      "productos": [
+        { "nombre": "Pepito BIÉRE", "descripcion": "Ternera, pollo y cerdo crujiente, con lechuga, queso rallado, aguacate, plátano maduro y salsa casera.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "nombre": "Lomo con queso", "descripcion": "Bocadillo de lomo de cerdo con queso.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "nombre": "Calamares", "descripcion": "Bocadillo de calamares.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "nombre": "Bacon y queso", "descripcion": "Bocadillo de bacon y queso.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "nombre": "Jamón serrano", "descripcion": "Con tomate rallado.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo"] }
+      ]
+    },
+    {
+      "id": "salsas",
+      "nombre": "Salsas caseras",
+      "corto": "Salsas",
+      "intro": "Hechas en casa. Pide más de una.",
+      "nota": null,
+      "imagen": null,
+      "productos": [
+        { "nombre": "Guasacaca", "descripcion": "Receta venezolana con hierbas, verduras y un toque ácido.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Salsa de ajo", "descripcion": "La salsa de ajo de la casa.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Salsa picante", "descripcion": "De pimientos dulces y picantes.", "etiquetas": ["Picante"], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] }
+      ]
+    },
+    {
+      "id": "dulces",
+      "nombre": "Dulces",
+      "intro": "Para cerrar.",
+      "nota": null,
+      "imagen": null,
+      "productos": [
+        { "nombre": "Tequeños de Nutella", "descripcion": "Masa dorada con relleno cremoso de Nutella.", "detalle": "6 unidades", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "nombre": "Tequeños de guayaba con queso", "descripcion": "Queso fundido y guayaba dulce en masa crujiente.", "detalle": "6 unidades", "etiquetas": [], "precio": null, "disponible": "consultar", "fuentes": ["justeat"] },
+        { "nombre": "Tiramisú", "descripcion": "Bizcochos bañados en café, crema de mascarpone y cacao.", "etiquetas": [], "precio": null, "disponible": "consultar", "fuentes": ["justeat"] },
+        { "nombre": "Cannolo de ricotta", "descripcion": "Cannolo siciliano relleno de ricotta.", "etiquetas": [], "precio": null, "disponible": "consultar", "fuentes": ["justeat"] }
+      ]
+    },
+    {
+      "id": "bebidas",
+      "nombre": "Para beber",
+      "corto": "Bebidas",
+      "intro": "Cerveza bien fría, de aquí y de fuera. En barra, además, vinos y combinados.",
+      "nota": null,
+      "imagen": null,
+      "productos": [
+        { "grupo": "Cervezas", "nombre": "Polar", "descripcion": "Pilsner venezolana.", "etiquetas": ["Venezuela"], "precio": null, "disponible": "si", "fuentes": ["justeat", "instagram"] },
+        { "grupo": "Cervezas", "nombre": "Mahou Cinco Estrellas", "descripcion": "La clásica de Madrid.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "grupo": "Cervezas", "nombre": "Mahou Radler", "descripcion": "Cerveza con limón.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "grupo": "Cervezas", "nombre": "Mahou sin alcohol", "descripcion": "Tercio sin alcohol.", "etiquetas": ["Sin alcohol"], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "grupo": "Cervezas", "nombre": "Corona", "descripcion": "Lager mexicana.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "grupo": "Cervezas", "nombre": "St. Bernardus", "descripcion": "Cerveza belga.", "etiquetas": ["Bélgica"], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "grupo": "Cervezas", "nombre": "Veltins", "descripcion": "Pilsner alemana.", "etiquetas": ["Alemania"], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "grupo": "Cervezas", "nombre": "Grevensteiner", "descripcion": "Cerveza alemana en botella de medio litro.", "etiquetas": ["Alemania"], "precio": null, "disponible": "si", "fuentes": ["glovo"] },
+        { "grupo": "Cervezas", "nombre": "Praga Premium", "descripcion": "Lager checa con lúpulo Saaz.", "etiquetas": ["Chequia"], "precio": null, "disponible": "si", "fuentes": ["justeat"] },
+        { "grupo": "De la casa", "nombre": "Michelada BIÉRE", "descripcion": "Cerveza fría, clamato, salsa picante, salsa inglesa, zumo de limón, sal y pimienta.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["instagram"] },
+        { "grupo": "De la casa", "nombre": "Venezuela Libre", "descripcion": "Whisky, vermut y blue curaçao.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["instagram"] },
+        { "grupo": "De la casa", "nombre": "Cerveza con licor de frutas", "descripcion": "Cerveza con un toque de licor de frutas.", "etiquetas": [], "precio": null, "disponible": "consultar", "fuentes": ["instagram"] },
+        { "grupo": "Sin alcohol", "nombre": "Malta", "descripcion": "Bebida de malta, dulce y suave.", "etiquetas": ["Sin alcohol"], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] },
+        { "grupo": "Sin alcohol", "nombre": "Refrescos", "descripcion": "En lata.", "etiquetas": [], "precio": null, "disponible": "si", "fuentes": ["glovo", "justeat"] }
+      ]
+    }
+  ]
+}

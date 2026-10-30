@@ -1,0 +1,47 @@
+{
+  "nombre": "BIÉRE",
+  "lema": "Donde las noches comienzan.",
+  "descripcion": "Bar y cocina venezolana en Cuenca: arepas, tequeños, empanadas y cachapas, con cervezas bien frías, cócteles y fútbol en pantalla.",
+  "direccion": {
+    "calle": "C. Dalmacio García Izcara, 9",
+    "calleCompleta": "Calle Dalmacio García Izcara, 9",
+    "codigoPostal": "16004",
+    "ciudad": "Cuenca",
+    "region": "Castilla-La Mancha",
+    "pais": "ES",
+    "referencia": "A unos 300 m de la estación de autobuses"
+  },
+  "telefono": {
+    "visible": "652 25 63 94",
+    "enlace": "+34652256394",
+    "schema": "+34 652 25 63 94"
+  },
+  "geo": { "lat": 40.0690729, "lng": -2.1362274 },
+  "enlaces": {
+    "glovo": "https://glovoapp.com/es/es/cuenca/stores/biere-cuenca",
+    "justEat": "https://www.just-eat.es/restaurants-biere-cuenca/menu",
+    "instagram": "https://www.instagram.com/biere_bar/",
+    "instagramUsuario": "@biere_bar",
+    "googleMaps": "https://maps.google.com/?cid=15602304327855489556",
+    "comoLlegar": "https://www.google.com/maps/dir/?api=1&destination=BI%C3%89RE%2C%20Calle%20Dalmacio%20Garc%C3%ADa%20Izcara%209%2C%2016004%20Cuenca"
+  },
+  "horario": {
+    "fuente": "Ficha de Google de BIÉRE, consultada en octubre de 2026",
+    "nota": "Festivos: llámanos para confirmar.",
+    "dias": [
+      { "dia": "lunes", "schema": "Monday", "tramos": [["11:00", "15:30"], ["19:00", "23:30"]] },
+      { "dia": "martes", "schema": "Tuesday", "tramos": [] },
+      { "dia": "miércoles", "schema": "Wednesday", "tramos": [["11:00", "15:30"], ["19:00", "23:30"]] },
+      { "dia": "jueves", "schema": "Thursday", "tramos": [["11:00", "15:30"], ["19:00", "23:30"]] },
+      { "dia": "viernes", "schema": "Friday", "tramos": [["11:00", "15:30"], ["19:00", "23:30"]] },
+      { "dia": "sábado", "schema": "Saturday", "tramos": [["11:00", "15:30"], ["19:00", "23:30"]] },
+      { "dia": "domingo", "schema": "Sunday", "tramos": [["11:00", "15:30"], ["19:00", "23:30"]] }
+    ]
+  },
+  "valoracion": {
+    "nota": "4,8",
+    "resenas": "Más de 300 reseñas",
+    "fuente": "Google",
+    "fecha": "octubre de 2026"
+  }
+}

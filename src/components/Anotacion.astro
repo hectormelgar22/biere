@@ -1,0 +1,26 @@
+---
+// Etiqueta escrita a mano con flecha, como las fichas de ingredientes del Instagram de BIÉRE.
+// x / y: posición del texto en % de la foto. dir: hacia dónde apunta la flecha.
+interface Props {
+  texto: string;
+  x: string;
+  y: string;
+  dir?: 'dr' | 'dl' | 'ur' | 'ul';
+  rotar?: string;
+  ancho?: string;
+  retardo?: string;
+  /** Giro extra de la flecha, p. ej. "20deg". */
+  girar?: string;
+  ocultarMovil?: boolean;
+}
+const { texto, x, y, dir = 'dr', rotar = '-4deg', ancho, retardo = '0s', girar, ocultarMovil = false } = Astro.props;
+const style = [`--x:${x}`, `--y:${y}`, `--r:${rotar}`, `--d:${retardo}`, ancho ? `--aw:${ancho}` : '', girar ? `--ar:${girar}` : '']
+  .filter(Boolean)
+  .join(';');
+---
+<span class:list={['anota', `anota--${dir}`, { 'anota--hide-sm': ocultarMovil }]} style={style} aria-hidden="true">
+  <span class="anota__text">{texto}</span>
+  <svg class="anota__arrow" viewBox="0 0 100 64" focusable="false">
+    <path pathLength="1" d="M3 6c22-6 50-2 70 18 7 7 11 15 14 26M76 45l11 6 4-13" />
+  </svg>
+</span>

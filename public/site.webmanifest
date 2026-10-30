@@ -1,0 +1,13 @@
+{
+  "name": "BIÉRE · Bar y cocina venezolana en Cuenca",
+  "short_name": "BIÉRE",
+  "start_url": "/biere/",
+  "scope": "/biere/",
+  "display": "browser",
+  "background_color": "#0d0b09",
+  "theme_color": "#0d0b09",
+  "icons": [
+    { "src": "/biere/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/biere/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

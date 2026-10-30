@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/site';
+---
+<Base title="Página no encontrada · BIÉRE Cuenca" description="Esta página no existe. Vuelve al inicio de la web de BIÉRE." path="404.html" noindex>
+  <section class="page">
+    <div class="wrap">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="display page__title">Aquí no hay nada… salvo ganas de arepa.</h1>
+      <div class="prose">
+        <p>La página que buscas no existe o ha cambiado de sitio.</p>
+        <div class="btn-row">
+          <a class="btn btn--cana" href={url()}>Volver al inicio</a>
+          <a class="btn btn--ghost" href={url('#carta')}>Ver la carta</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

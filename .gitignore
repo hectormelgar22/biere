@@ -1,0 +1,15 @@
+# dependencias y compilación
+node_modules/
+dist/
+.astro/
+
+# entorno y secretos
+.env
+.env.*
+
+# sistema
+.DS_Store
+Thumbs.db
+
+# informes locales de Lighthouse
+lighthouse/

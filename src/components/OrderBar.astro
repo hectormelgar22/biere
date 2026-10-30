@@ -1,0 +1,16 @@
+---
+import Icon from './Icon.astro';
+import { negocio } from '../lib/site';
+---
+<nav class="order-bar" aria-label="Acciones rápidas">
+  <a class="order-bar__primary" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
+    Pedir a domicilio
+    <small>en Glovo<span class="sr-only"> (se abre en otra pestaña)</span></small>
+  </a>
+  <a class="order-bar__secondary" href={negocio.enlaces.comoLlegar} target="_blank" rel="noopener">
+    Cómo llegar<span class="sr-only"> (Google Maps)</span>
+  </a>
+  <a class="order-bar__call" href={`tel:${negocio.telefono.enlace}`} aria-label={`Llamar a BIÉRE al ${negocio.telefono.visible}`}>
+    <Icon name="telefono" />
+  </a>
+</nav>

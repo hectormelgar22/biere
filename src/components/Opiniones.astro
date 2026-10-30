@@ -1,0 +1,36 @@
+---
+import Icon from './Icon.astro';
+import resenas from '../data/resenas.json';
+import { negocio } from '../lib/site';
+---
+<section class="section opiniones" id="opiniones" aria-labelledby="opiniones-title">
+  <div class="wrap opiniones__grid">
+    <div class="nota-google">
+      <p class="eyebrow">Lo que dicen</p>
+      <h2 id="opiniones-title" class="sr-only">Opiniones de clientes en Google</h2>
+      <p class="display nota-google__num" data-reveal="line">
+        <span class="line"><span>{negocio.valoracion.nota}</span></span>
+      </p>
+      <div class="nota-google__stars" aria-hidden="true">
+        {[1, 2, 3, 4, 5].map(() => <Icon name="estrella" />)}
+      </div>
+      <p class="nota-google__meta">de 5 en {negocio.valoracion.fuente} · {negocio.valoracion.resenas.toLowerCase()}</p>
+      <a class="text-link" href={negocio.enlaces.googleMaps} target="_blank" rel="noopener">
+        Leer las reseñas en Google <Icon name="externo" /><span class="sr-only"> (se abre en otra pestaña)</span>
+      </a>
+      <p class="nota-google__fecha">Dato de Google, {negocio.valoracion.fecha}.</p>
+    </div>
+
+    <div class="quotes">
+      {resenas.resenas.map((r, i) => (
+        <figure class="quote" data-reveal style={`--i:${i}`}>
+          <span class="quote__mark" aria-hidden="true">“</span>
+          <blockquote>
+            <p>{r.texto}</p>
+          </blockquote>
+          <figcaption><strong>{r.autor}</strong> · Reseña en {r.fuente}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

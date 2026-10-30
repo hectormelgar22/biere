@@ -1,0 +1,68 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import Anotacion from './Anotacion.astro';
+import { foto, negocio, url } from '../lib/site';
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero__inner">
+    <div class="hero__head">
+      <h1 id="hero-title" class="hero__title display">
+        <span class="hero__kicker">BIÉRE · Bar y cocina venezolana en Cuenca</span>
+        <span class="hero__line"><span style="--i:0">Donde las</span></span>
+        <span class="hero__line hero__line--cana"><span style="--i:1">noches</span></span>
+        <span class="hero__line"><span style="--i:2">comienzan.</span></span>
+      </h1>
+    </div>
+
+    <figure class="hero__media">
+      <div class="hero__pic">
+      <div class="frame frame--velo shutter hero__frame">
+        <Picture
+          src={foto('arepas-reina-pepiada')}
+          formats={['avif', 'webp']}
+          widths={[420, 640, 912]}
+          sizes="(min-width: 1024px) 42vw, (min-width: 720px) 88vw, 100vw"
+          quality={72}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          alt="Arepas Reina Pepiada de BIÉRE: masa de maíz a la plancha rellena de pollo desmenuzado, aguacate y mayonesa."
+        />
+      </div>
+      <Anotacion texto="pollo desmenuzado" x="47%" y="3.5%" dir="dl" rotar="-5deg" />
+      <Anotacion texto="aguacate fresco" x="58%" y="88%" dir="ul" rotar="-3deg" ancho="4rem" retardo="0.25s" />
+      <Anotacion texto="masa de maíz" x="4%" y="89%" dir="ur" rotar="-4deg" ancho="4rem" girar="-30deg" retardo="0.5s" ocultarMovil />
+      </div>
+      <figcaption class="sr-only">La Reina Pepiada, la arepa favorita de la casa.</figcaption>
+    </figure>
+
+    <div class="hero__body">
+      <p class="lead">
+        Arepas, tequeños, empanadas y cachapas con sabor venezolano. Cervezas bien frías, cócteles y fútbol en pantalla, en el centro de Cuenca.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn--cana" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
+          Pedir a domicilio <Icon name="flecha" class="btn__icon" /><span class="sr-only"> en Glovo (se abre en otra pestaña)</span>
+        </a>
+        <a class="btn btn--ghost" href={url('#carta')}>Ver la carta</a>
+      </div>
+      <p class="hero__note">Pedidos a domicilio a través de Glovo. La disponibilidad depende de tu dirección y del horario.</p>
+    </div>
+
+    <ul class="hero__facts" role="list">
+      <li>
+        <Icon name="estrella" />
+        <a href={url('#opiniones')}><strong>{negocio.valoracion.nota}</strong> en Google · {negocio.valoracion.resenas.toLowerCase()}</a>
+      </li>
+      <li>
+        <Icon name="pin" />
+        <a href={negocio.enlaces.googleMaps} target="_blank" rel="noopener">{negocio.direccion.calle}<span class="sr-only"> (abre Google Maps)</span></a>
+      </li>
+      <li>
+        <Icon name="reloj" />
+        <a href={url('#visitanos')} data-estado-texto>Horario y cómo llegar</a>
+      </li>
+    </ul>
+  </div>
+</section>

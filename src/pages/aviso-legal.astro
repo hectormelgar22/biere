@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import { negocio, url } from '../lib/site';
+---
+<Base
+  title="Aviso legal y privacidad · BIÉRE Cuenca"
+  description="Información legal, privacidad y uso de cookies de la web de BIÉRE, bar y cocina venezolana en Cuenca."
+  path="aviso-legal/"
+>
+  <article class="page">
+    <div class="wrap">
+      <p class="eyebrow">Información legal</p>
+      <h1 class="display page__title">Aviso legal y privacidad</h1>
+      <div class="prose">
+        <h2>Quién está detrás de esta web</h2>
+        <p>Esta es la web informativa de <strong>BIÉRE</strong>, bar y cocina venezolana situado en {negocio.direccion.calleCompleta}, {negocio.direccion.codigoPostal} {negocio.direccion.ciudad}. Teléfono de contacto: <a href={`tel:${negocio.telefono.enlace}`}>{negocio.telefono.visible}</a>.</p>
+
+        <h2>Para qué sirve</h2>
+        <p>La web muestra la carta, el horario, la ubicación y las formas de pedir. No se vende nada desde aquí: los pedidos a domicilio y para recoger se hacen en Glovo y Just Eat, que tienen sus propias condiciones de uso y de privacidad.</p>
+
+        <h2>Privacidad y cookies</h2>
+        <p>Esta web <strong>no usa cookies</strong>, no tiene formularios y no recoge datos personales. Tampoco incluye herramientas de analítica ni publicidad. Las fuentes tipográficas y las imágenes se sirven desde la propia web.</p>
+        <p>Si pulsas un enlace a Glovo, Just Eat, Google Maps o Instagram, sales de esta web y se aplican las políticas de esos servicios.</p>
+
+        <h2>Precios, carta y alérgenos</h2>
+        <p>La carta es orientativa y puede cambiar. Los precios del local se consultan en barra y los de domicilio, en la plataforma de pedido. Si tienes alguna alergia o intolerancia, pregunta al equipo antes de pedir o llama al {negocio.telefono.visible}.</p>
+
+        <h2>Propiedad intelectual</h2>
+        <p>El nombre, el logotipo y las fotografías pertenecen a BIÉRE. El mapa está dibujado con datos de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (licencia ODbL). Las tipografías League Gothic, Instrument Sans y Caveat Brush se usan bajo licencia SIL Open Font License.</p>
+
+        <p><a class="text-link" href={url()}>Volver al inicio</a></p>
+      </div>
+    </div>
+  </article>
+</Base>

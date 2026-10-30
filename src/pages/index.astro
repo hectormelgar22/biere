@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import LaCasa from '../components/LaCasa.astro';
+import Imprescindibles from '../components/Imprescindibles.astro';
+import Carta from '../components/Carta.astro';
+import Domicilio from '../components/Domicilio.astro';
+import Ambiente from '../components/Ambiente.astro';
+import Opiniones from '../components/Opiniones.astro';
+import Visitanos from '../components/Visitanos.astro';
+import carta from '../data/carta.json';
+import { absoluta, negocio } from '../lib/site';
+
+const title = 'BIÉRE · Bar y cocina venezolana en Cuenca | Arepas, tequeños y cervezas';
+const description =
+  'Arepas, tequeños, empanadas y cachapas en el centro de Cuenca, con cervezas frías, cócteles y fútbol. Pide a domicilio en Glovo o ven a C. Dalmacio García Izcara, 9.';
+
+// Agrupa los días con el mismo horario para los datos estructurados.
+const tramosUnicos = new Map<string, { dias: string[]; abre: string; cierra: string }>();
+for (const d of negocio.horario.dias) {
+  for (const [abre, cierra] of d.tramos) {
+    const k = `${abre}-${cierra}`;
+    if (!tramosUnicos.has(k)) tramosUnicos.set(k, { dias: [], abre, cierra });
+    tramosUnicos.get(k)!.dias.push(d.schema);
+  }
+}
+
+const restaurante = {
+  '@context': 'https://schema.org',
+  '@type': ['Restaurant', 'BarOrPub'],
+  '@id': absoluta('#negocio'),
+  name: negocio.nombre,
+  alternateName: 'Biére Cuenca',
+  description: negocio.descripcion,
+  slogan: negocio.lema,
+  url: absoluta(),
+  telephone: negocio.telefono.schema,
+  image: [absoluta('og-biere.jpg')],
+  logo: absoluta('logo-biere.png'),
+  servesCuisine: ['Venezolana', 'Tapas'],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: negocio.direccion.calleCompleta,
+    postalCode: negocio.direccion.codigoPostal,
+    addressLocality: negocio.direccion.ciudad,
+    addressRegion: negocio.direccion.region,
+    addressCountry: negocio.direccion.pais,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: negocio.geo.lat, longitude: negocio.geo.lng },
+  hasMap: negocio.enlaces.googleMaps,
+  openingHoursSpecification: [...tramosUnicos.values()].map((t) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: t.dias,
+    opens: t.abre,
+    closes: t.cierra,
+  })),
+  sameAs: [negocio.enlaces.instagram],
+  potentialAction: {
+    '@type': 'OrderAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: negocio.enlaces.glovo,
+      actionPlatform: ['https://schema.org/DesktopWebPlatform', 'https://schema.org/MobileWebPlatform'],
+    },
+  },
+  hasMenu: {
+    '@type': 'Menu',
+    name: 'Carta de BIÉRE',
+    url: absoluta('#carta'),
+    inLanguage: 'es',
+    hasMenuSection: carta.categorias.map((c) => ({
+      '@type': 'MenuSection',
+      name: c.nombre,
+      hasMenuItem: c.productos.map((p) => ({ '@type': 'MenuItem', name: p.nombre, description: p.descripcion })),
+    })),
+  },
+};
+---
+<Base title={title} description={description} schema={[restaurante]}>
+  <Hero />
+  <LaCasa />
+  <Imprescindibles />
+  <Carta />
+  <Domicilio />
+  <Ambiente />
+  <Opiniones />
+  <Visitanos />
+</Base>

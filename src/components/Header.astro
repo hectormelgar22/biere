@@ -1,0 +1,69 @@
+---
+import Icon from './Icon.astro';
+import { negocio, url } from '../lib/site';
+
+const links = [
+  { href: url('#carta'), texto: 'Carta', pista: 'Arepas, tequeños…' },
+  { href: url('#la-casa'), texto: 'La casa', pista: 'Quiénes somos' },
+  { href: url('#imprescindibles'), texto: 'Imprescindibles', pista: 'Los clásicos' },
+  { href: url('#ambiente'), texto: 'Ambiente', pista: 'Fútbol y celebraciones' },
+  { href: url('#visitanos'), texto: 'Visítanos', pista: 'Horario y mapa' },
+];
+const navDesktop = links.filter((l) => l.texto !== 'Imprescindibles');
+---
+<header class="site-header" data-header>
+  <div class="site-header__inner">
+    <a class="brand" href={url()} aria-label="BIÉRE, ir al inicio">
+      <svg class="brand__mark" aria-hidden="true" focusable="false"><use href="#logo-biere" /></svg>
+    </a>
+
+    <nav class="site-nav" aria-label="Principal">
+      <ul role="list">
+        {navDesktop.map((l) => <li><a href={l.href}>{l.texto}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="header-phone" href={`tel:${negocio.telefono.enlace}`}>
+        <Icon name="telefono" />
+        <span><span class="sr-only">Llamar al </span>{negocio.telefono.visible}</span>
+      </a>
+      <a class="btn btn--cana site-header__order" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
+        Pedir a domicilio<span class="sr-only"> en Glovo (se abre en otra pestaña)</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-haspopup="dialog" aria-controls="menu-movil" aria-expanded="false" data-menu-open>
+        Menú <span class="menu-toggle__lines" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog class="mobile-menu" id="menu-movil" aria-label="Menú de navegación" data-menu>
+  <div class="mobile-menu__top">
+    <a class="brand" href={url()} aria-label="BIÉRE, ir al inicio">
+      <svg class="brand__mark" aria-hidden="true" focusable="false"><use href="#logo-biere" /></svg>
+    </a>
+    <button class="menu-close" type="button" data-menu-close>
+      Cerrar <span class="menu-close__x" aria-hidden="true"></span>
+    </button>
+  </div>
+  <nav class="mobile-menu__nav" aria-label="Secciones">
+    <ul role="list">
+      {links.map((l, i) => (
+        <li>
+          <a class="mobile-menu__link" href={l.href} style={`--i:${i}`} data-menu-link>
+            {l.texto}<span>{l.pista}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <div class="mobile-menu__actions">
+    <a class="btn btn--cana" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
+      Pedir a domicilio en Glovo <Icon name="flecha" class="btn__icon" />
+    </a>
+    <a class="btn btn--ghost" href={`tel:${negocio.telefono.enlace}`}><Icon name="telefono" class="btn__icon" /> Llamar</a>
+    <a class="btn btn--ghost" href={negocio.enlaces.instagram} target="_blank" rel="noopener"><Icon name="instagram" class="btn__icon" /> Instagram</a>
+    <p class="mobile-menu__hours" data-estado-texto>{negocio.direccion.calle} · {negocio.direccion.ciudad}</p>
+  </div>
+</dialog>

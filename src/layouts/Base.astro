@@ -1,0 +1,87 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import OrderBar from '../components/OrderBar.astro';
+import LogoSprite from '../components/LogoSprite.astro';
+import { absoluta, url } from '../lib/site';
+import leagueGothic from '../assets/fonts/league-gothic.woff2?url';
+import instrumentSans from '../assets/fonts/instrument-sans.woff2?url';
+import caveatBrush from '../assets/fonts/caveat-brush.woff2?url';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  schema?: object[];
+  noindex?: boolean;
+}
+const { title, description, path = '', schema = [], noindex = false } = Astro.props;
+const canonical = absoluta(path);
+const ogImage = absoluta('og-biere.jpg');
+
+// Fuentes alojadas en la propia web. Las alternativas locales se ajustan
+// a las métricas reales para que el texto no "salte" al cargar la fuente.
+const fontFaces = `
+@font-face{font-family:'League Gothic';src:url(${leagueGothic}) format('woff2');font-weight:400;font-stretch:75% 100%;font-display:swap}
+@font-face{font-family:'Instrument Sans';src:url(${instrumentSans}) format('woff2');font-weight:400 700;font-display:swap}
+@font-face{font-family:'Caveat Brush';src:url(${caveatBrush}) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'League Gothic Fallback';src:local('Arial Narrow'),local('ArialNarrow');size-adjust:68.3%;ascent-override:141.7%;descent-override:34%;line-gap-override:0%}
+@font-face{font-family:'Instrument Sans Fallback';src:local('Arial'),local('ArialMT');size-adjust:100.3%;ascent-override:96.7%;descent-override:24.9%;line-gap-override:0%}
+`;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#0d0b09" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="BIÉRE Cuenca" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="BIÉRE, bar y cocina venezolana en Cuenca: arepas Reina Pepiada y el logotipo del bar." />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={url('favicon-32.png')} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
+    <link rel="manifest" href={url('site.webmanifest')} />
+
+    <link rel="preload" href={leagueGothic} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={instrumentSans} as="font" type="font/woff2" crossorigin />
+    <style is:inline set:html={fontFaces}></style>
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      setTimeout(function () { if (!window.__biere) document.documentElement.classList.remove('js'); }, 4000);
+    </script>
+
+    {schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <LogoSprite />
+    <Header />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+    <OrderBar />
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

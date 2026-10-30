@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import { negocio } from '../lib/site';
+
+const platos = ['Arepas', 'Tequeños', 'Empanadas', 'Cachapas', 'Pepito', 'Arepa Burger', 'Salsas caseras', 'Malta bien fría'];
+---
+<section class="section domicilio" id="a-domicilio" aria-labelledby="domicilio-title">
+  <div class="ticker" aria-hidden="true">
+    {[0, 1].map(() => (
+      <div class="ticker__track">
+        {platos.map((p) => (
+          <span class="ticker__item">
+            {p}
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M3 12h18M6 6l12 12M18 6 6 18" /></svg>
+          </span>
+        ))}
+      </div>
+    ))}
+  </div>
+
+  <div class="wrap domicilio__inner">
+    <div class="domicilio__copy">
+      <p class="eyebrow">A domicilio y para recoger</p>
+      <h2 id="domicilio-title" class="display domicilio__title" data-reveal="line">
+        <span class="line"><span style="--l:0">¿Plan de sofá?</span></span>
+        <span class="line"><span style="--l:1">BIÉRE va a tu casa.</span></span>
+      </h2>
+    </div>
+    <div class="domicilio__side" data-reveal>
+      <p class="domicilio__lead">Arepas, tequeños, empanadas y hamburguesas, en tu puerta con Glovo. ¿Prefieres pasar a por ellos? Haz el pedido para recoger en Just Eat.</p>
+      <div class="btn-row">
+        <a class="btn btn--dark" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
+          <Icon name="moto" class="btn__icon" /> Pedir en Glovo<span class="sr-only"> (se abre en otra pestaña)</span>
+        </a>
+        <a class="btn btn--outline-dark" href={negocio.enlaces.justEat} target="_blank" rel="noopener">
+          <Icon name="bolsa" class="btn__icon" /> Recoger con Just Eat<span class="sr-only"> (se abre en otra pestaña)</span>
+        </a>
+      </div>
+      <p class="domicilio__note">La entrega depende de tu dirección y del horario de cada plataforma. Precios, gastos de envío y pedido mínimo se muestran en la propia app.</p>
+    </div>
+  </div>
+</section>
