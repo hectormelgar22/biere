@@ -673,8 +673,12 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22e
 }
 
 @media (min-width: 720px) and (max-width: 1023.98px) {
+  .hero__title { font-size: min(21vw, 10rem); }
   .hero__media { margin-inline: 0; }
   .hero__frame { aspect-ratio: 5 / 4; }
+  .casa__frame { aspect-ratio: 4 / 3; }
+  .plato__media { width: 88%; }
+  .plato--right .plato__media { margin-left: auto; }
 }
 
 @media (min-width: 1024px) {

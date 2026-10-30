@@ -65,7 +65,7 @@ function irA(hash: string, smooth: boolean) {
   const target = document.getElementById(decodeURIComponent(hash.slice(1)));
   if (!target) return false;
   pintarTodo();
-  target.scrollIntoView({ behavior: smooth && !reduceMotion.matches ? 'smooth' : 'auto', block: 'start' });
+  target.scrollIntoView({ behavior: smooth && !reduceMotion.matches ? 'smooth' : 'instant', block: 'start' });
   return true;
 }
 document.addEventListener('click', (e) => {
@@ -79,7 +79,13 @@ document.addEventListener('click', (e) => {
     history.pushState(null, '', destino.hash);
   }
 });
-if (location.hash) requestAnimationFrame(() => irA(location.hash, false));
+if (location.hash) {
+  requestAnimationFrame(() => irA(location.hash, false));
+  // El navegador puede recolocar el scroll al terminar de cargar: se corrige una vez más.
+  window.addEventListener('load', () => irA(location.hash, false), { once: true });
+}
+window.addEventListener('hashchange', () => irA(location.hash, false));
+window.addEventListener('popstate', () => { if (location.hash) irA(location.hash, false); });
 
 /* ---------- Revelados al entrar en pantalla ---------- */
 const revealTargets = document.querySelectorAll<HTMLElement>('[data-reveal], [data-reveal-img]');
