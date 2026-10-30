@@ -3,6 +3,7 @@ import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import Anotacion from './Anotacion.astro';
 import { foto, negocio, url } from '../lib/site';
+import { heroFoto } from '../lib/hero';
 ---
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap hero__inner">
@@ -19,14 +20,13 @@ import { foto, negocio, url } from '../lib/site';
       <div class="hero__pic">
       <div class="frame frame--velo shutter hero__frame">
         <Picture
-          src={foto('arepas-reina-pepiada')}
+          src={foto(heroFoto.nombre)}
           formats={['avif', 'webp']}
-          widths={[420, 640, 912]}
-          sizes="(min-width: 1024px) 42vw, (min-width: 720px) 88vw, 100vw"
-          quality={72}
+          widths={heroFoto.widths}
+          sizes={heroFoto.sizes}
+          quality={heroFoto.quality}
           loading="eager"
           fetchpriority="high"
-          decoding="async"
           alt="Arepas Reina Pepiada de BIÉRE: masa de maíz a la plancha rellena de pollo desmenuzado, aguacate y mayonesa."
         />
       </div>

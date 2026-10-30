@@ -7,7 +7,6 @@ import LogoSprite from '../components/LogoSprite.astro';
 import { absoluta, url } from '../lib/site';
 import leagueGothic from '../assets/fonts/league-gothic.woff2?url';
 import instrumentSans from '../assets/fonts/instrument-sans.woff2?url';
-import caveatBrush from '../assets/fonts/caveat-brush.woff2?url';
 
 interface Props {
   title: string;
@@ -15,17 +14,19 @@ interface Props {
   path?: string;
   schema?: object[];
   noindex?: boolean;
+  /** Imagen principal a precargar (srcset AVIF). */
+  preloadImage?: { srcset: string; sizes: string };
 }
-const { title, description, path = '', schema = [], noindex = false } = Astro.props;
+const { title, description, path = '', schema = [], noindex = false, preloadImage } = Astro.props;
 const canonical = absoluta(path);
 const ogImage = absoluta('og-biere.jpg');
 
 // Fuentes alojadas en la propia web. Las alternativas locales se ajustan
 // a las métricas reales para que el texto no "salte" al cargar la fuente.
+// La manuscrita (Caveat Brush) se carga desde main.ts, después de lo importante.
 const fontFaces = `
 @font-face{font-family:'League Gothic';src:url(${leagueGothic}) format('woff2');font-weight:400;font-stretch:75% 100%;font-display:swap}
 @font-face{font-family:'Instrument Sans';src:url(${instrumentSans}) format('woff2');font-weight:400 700;font-display:swap}
-@font-face{font-family:'Caveat Brush';src:url(${caveatBrush}) format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'League Gothic Fallback';src:local('Arial Narrow'),local('ArialNarrow');size-adjust:68.3%;ascent-override:141.7%;descent-override:34%;line-gap-override:0%}
 @font-face{font-family:'Instrument Sans Fallback';src:local('Arial'),local('ArialMT');size-adjust:100.3%;ascent-override:96.7%;descent-override:24.9%;line-gap-override:0%}
 `;
@@ -55,11 +56,12 @@ const fontFaces = `
     <meta property="og:image:alt" content="BIÉRE, bar y cocina venezolana en Cuenca: arepas Reina Pepiada y el logotipo del bar." />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
     <link rel="icon" href={url('favicon-32.png')} type="image/png" sizes="32x32" />
+    <link rel="icon" href={url('favicon-48.png')} type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
     <link rel="manifest" href={url('site.webmanifest')} />
 
+    {preloadImage && <link rel="preload" as="image" type="image/avif" imagesrcset={preloadImage.srcset} imagesizes={preloadImage.sizes} fetchpriority="high" />}
     <link rel="preload" href={leagueGothic} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={instrumentSans} as="font" type="font/woff2" crossorigin />
     <style is:inline set:html={fontFaces}></style>
@@ -69,17 +71,19 @@ const fontFaces = `
       setTimeout(function () { if (!window.__biere) document.documentElement.classList.remove('js'); }, 4000);
     </script>
 
-    {schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    <noscript><style>.carta-panel[hidden]{display:block!important}.carta-tabs{display:none!important}</style></noscript>
   </head>
   <body>
+    <div class="scroll-sentinel" data-scroll-sentinel aria-hidden="true"></div>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <LogoSprite />
     <Header />
     <main id="contenido">
       <slot />
     </main>
     <Footer />
     <OrderBar />
+    <LogoSprite />
+    {schema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
     <script>
       import '../scripts/main.ts';
     </script>

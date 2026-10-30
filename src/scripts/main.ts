@@ -1,4 +1,5 @@
 import negocio from '../data/negocio.json';
+import caveatBrush from '../assets/fonts/caveat-brush.woff2?url';
 
 declare global {
   interface Window { __biere?: boolean }
@@ -8,19 +9,21 @@ window.__biere = true;
 const root = document.documentElement;
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-/* ---------- Cabecera: fondo sólido al hacer scroll ---------- */
+/* ---------- Cabecera: fondo sólido al hacer scroll (sin leer el scroll en cada frame) ---------- */
 const header = document.querySelector<HTMLElement>('[data-header]');
-let ticking = false;
-function onScroll() {
-  if (ticking) return;
-  ticking = true;
-  requestAnimationFrame(() => {
-    header?.classList.toggle('is-scrolled', window.scrollY > 24);
-    ticking = false;
-  });
+const sentinel = document.querySelector('[data-scroll-sentinel]');
+if (header && sentinel && 'IntersectionObserver' in window) {
+  new IntersectionObserver(([e]) => header.classList.toggle('is-scrolled', !e.isIntersecting)).observe(sentinel);
 }
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
+
+/* ---------- Fuente manuscrita de las anotaciones: se pide cuando lo principal ya ha cargado ---------- */
+function cargarManuscrita() {
+  if (!('FontFace' in window)) return;
+  const font = new FontFace('Caveat Brush', `url(${caveatBrush}) format('woff2')`, { display: 'swap' });
+  font.load().then((f) => document.fonts.add(f)).catch(() => {});
+}
+if (document.readyState === 'complete') cargarManuscrita();
+else window.addEventListener('load', cargarManuscrita, { once: true });
 
 /* ---------- Menú móvil (dialog nativo: foco atrapado y Esc incluidos) ---------- */
 const menu = document.querySelector<HTMLDialogElement>('[data-menu]');
@@ -54,6 +57,30 @@ if (menu && menuOpen) {
   window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => { if (e.matches && menu.open) menu.close(); });
 }
 
+/* ---------- Enlaces internos ----------
+   Las secciones se pintan bajo demanda (content-visibility). Antes de saltar a una
+   sección se pintan todas, para que el desplazamiento acabe exactamente en su sitio. */
+function pintarTodo() { root.classList.add('cv-off'); }
+function irA(hash: string, smooth: boolean) {
+  const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+  if (!target) return false;
+  pintarTodo();
+  target.scrollIntoView({ behavior: smooth && !reduceMotion.matches ? 'smooth' : 'auto', block: 'start' });
+  return true;
+}
+document.addEventListener('click', (e) => {
+  if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  const a = (e.target as Element).closest<HTMLAnchorElement>('a[href*="#"]');
+  if (!a) return;
+  const destino = new URL(a.href);
+  if (destino.pathname !== location.pathname || !destino.hash) return;
+  if (irA(destino.hash, true)) {
+    e.preventDefault();
+    history.pushState(null, '', destino.hash);
+  }
+});
+if (location.hash) requestAnimationFrame(() => irA(location.hash, false));
+
 /* ---------- Revelados al entrar en pantalla ---------- */
 const revealTargets = document.querySelectorAll<HTMLElement>('[data-reveal], [data-reveal-img]');
 if ('IntersectionObserver' in window && !reduceMotion.matches) {
@@ -81,8 +108,6 @@ if (carta) {
   const tabs = Array.from(tablist.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
   const panels = Array.from(carta.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
   const desktop = window.matchMedia('(min-width: 1024px)');
-
-  panels.forEach((p) => { if (p.hasAttribute('data-hidden-on-js')) p.hidden = true; });
 
   function select(id: string, { focus = false, scroll = false } = {}) {
     const tab = tabs.find((t) => t.dataset.cat === id);

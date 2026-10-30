@@ -9,7 +9,12 @@ import Ambiente from '../components/Ambiente.astro';
 import Opiniones from '../components/Opiniones.astro';
 import Visitanos from '../components/Visitanos.astro';
 import carta from '../data/carta.json';
-import { absoluta, negocio } from '../lib/site';
+import { getImage } from 'astro:assets';
+import { absoluta, foto, negocio } from '../lib/site';
+import { heroFoto } from '../lib/hero';
+
+const heroAvif = await getImage({ src: foto(heroFoto.nombre), format: 'avif', widths: heroFoto.widths, quality: heroFoto.quality });
+const preloadImage = { srcset: heroAvif.srcSet.attribute, sizes: heroFoto.sizes };
 
 const title = 'BIÉRE · Bar y cocina venezolana en Cuenca | Arepas, tequeños y cervezas';
 const description =
@@ -76,7 +81,7 @@ const restaurante = {
   },
 };
 ---
-<Base title={title} description={description} schema={[restaurante]}>
+<Base title={title} description={description} schema={[restaurante]} preloadImage={preloadImage}>
   <Hero />
   <LaCasa />
   <Imprescindibles />

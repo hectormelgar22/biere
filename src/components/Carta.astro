@@ -65,7 +65,7 @@ const destacadas = new Set(['La favorita de la casa', 'Novedad']);
             aria-labelledby={`tab-${c.id}`}
             tabindex="0"
             data-panel={c.id}
-            data-hidden-on-js={i === 0 ? undefined : ''}
+            hidden={i !== 0}
           >
             <div class:list={['carta-panel__head', { 'has-img': c.imagen }]}>
               <div style="--i:0">
@@ -80,7 +80,7 @@ const destacadas = new Set(['La favorita de la casa', 'Novedad']);
                     formats={['avif', 'webp']}
                     widths={[360, 640]}
                     sizes="(min-width: 1024px) 28vw, (min-width: 720px) 42vw, 100vw"
-                    quality={66}
+                    quality={52}
                     loading="lazy"
                     decoding="async"
                     alt=""

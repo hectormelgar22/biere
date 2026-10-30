@@ -4,10 +4,10 @@ import Icon from './Icon.astro';
 import { foto, negocio } from '../lib/site';
 
 const galeria = [
-  { clase: 'galeria__item--a', foto: 'brindis-cocteles', widths: [420, 720, 1080], sizes: '(min-width: 720px) 40vw, 100vw', alt: 'Tres amigas brindan con cócteles en la barra de BIÉRE, con la pared de botellas al fondo.', pie: 'brindis en barra' },
-  { clase: 'galeria__item--b', foto: 'noche-de-futbol', widths: [360, 720], sizes: '(min-width: 720px) 24vw, 50vw', alt: 'Noche de partido en BIÉRE: el local lleno mirando el fútbol en la pantalla.', pie: 'noche de partido' },
+  { clase: 'galeria__item--a', foto: 'brindis-cocteles', widths: [400, 560, 760, 1080], sizes: '(min-width: 720px) 40vw, 100vw', alt: 'Tres amigas brindan con cócteles en la barra de BIÉRE, con la pared de botellas al fondo.', pie: 'brindis en barra' },
+  { clase: 'galeria__item--b', foto: 'noche-de-futbol', widths: [360, 540, 720], sizes: '(min-width: 720px) 24vw, 50vw', alt: 'Noche de partido en BIÉRE: el local lleno mirando el fútbol en la pantalla.', pie: 'noche de partido' },
   { clase: 'galeria__item--c', foto: 'fachada-de-noche', widths: [320, 640], sizes: '(min-width: 720px) 22vw, 50vw', alt: 'La puerta de BIÉRE de noche, con el letrero redondo iluminado.', pie: 'la puerta, de noche' },
-  { clase: 'galeria__item--d', foto: 'mechada-en-mesa', widths: [420, 720, 1179], sizes: '(min-width: 720px) 55vw, 100vw', alt: 'Plato con carne mechada y queso rallado en una mesa de BIÉRE, con salsas y una malta.', pie: 'la mesa, llena' },
+  { clase: 'galeria__item--d', foto: 'mechada-en-mesa', widths: [400, 560, 760, 1179], sizes: '(min-width: 720px) 55vw, 100vw', alt: 'Plato con carne mechada y queso rallado en una mesa de BIÉRE, con salsas y una malta.', pie: 'la mesa, llena' },
 ];
 ---
 <section class="section ambiente" id="ambiente" aria-labelledby="ambiente-title">
@@ -32,7 +32,7 @@ const galeria = [
               formats={['avif', 'webp']}
               widths={g.widths}
               sizes={g.sizes}
-              quality={66}
+              quality={52}
               loading="lazy"
               decoding="async"
               alt={g.alt}
