@@ -7,13 +7,12 @@ const dias = negocio.horario.dias;
 <section class="section visita" id="visitanos" aria-labelledby="visita-title">
   <div class="wrap visita__grid">
     <div class="visita__info">
-      <p class="eyebrow">Visítanos</p>
       <h2 id="visita-title" class="display visita__title" data-reveal="line">
         <span class="line"><span style="--l:0">C. Dalmacio</span></span>
         <span class="line"><span style="--l:1">García Izcara, 9</span></span>
       </h2>
       <p class="visita__ref">
-        {negocio.direccion.codigoPostal} {negocio.direccion.ciudad} · {negocio.direccion.referencia}.
+        {negocio.direccion.codigoPostal} {negocio.direccion.ciudad}. {negocio.direccion.referencia}.
       </p>
       <div class="btn-row visita__actions">
         <a class="btn btn--cana" href={negocio.enlaces.comoLlegar} target="_blank" rel="noopener">

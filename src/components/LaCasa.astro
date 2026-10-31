@@ -2,33 +2,12 @@
 import { Picture } from 'astro:assets';
 import { foto, negocio } from '../lib/site';
 
-// Iconos de línea propios (mismo trazo que el logotipo).
-const items = [
-  {
-    titulo: 'Cocina venezolana',
-    texto: 'Arepas, tequeños, empanadas, cachapas y pepitos, con salsas caseras: guasacaca, ajo y picante.',
-    icono: '<path d="M6 30c0-9 8-15 18-15s18 6 18 15"/><path d="M6 30c0 5 8 8 18 8s18-3 18-8"/><path d="M12 27c4 2 8 3 12 3s8-1 12-3"/><path d="M16 21l2 2M24 19v3M31 21l-2 2"/>',
-  },
-  {
-    titulo: 'Menú del día',
-    texto: 'A mediodía, cocina casera con un menú distinto cada día.',
-    icono: '<ellipse cx="24" cy="30" rx="17" ry="5"/><path d="M9 30c1-8 7-13 15-13s14 5 15 13"/><path d="M24 17v-3M21 13h6"/><path d="M14 36l-2 4M34 36l2 4"/>',
-  },
-  {
-    titulo: 'La barra',
-    texto: 'Cervezas nacionales e importadas, como la venezolana Polar, cócteles de la casa y vinos.',
-    icono: '<path d="M13 14h18v24a3 3 0 0 1-3 3H16a3 3 0 0 1-3-3Z"/><path d="M31 19h4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-4"/><path d="M13 14c0-4 3-6 6-5 1-3 6-3 7 0 3-1 6 1 5 5"/><path d="M19 22v12M25 22v12"/>',
-  },
-  {
-    titulo: 'Fútbol',
-    texto: 'Pantallas para ver los partidos con una cerveza bien tirada.',
-    icono: '<rect x="6" y="10" width="36" height="22" rx="2"/><path d="M18 40h12M24 32v8"/><circle cx="24" cy="21" r="6"/><path d="M24 15v3l3 2M21 20l3-2"/>',
-  },
-  {
-    titulo: 'Celebraciones',
-    texto: '¿Cumpleaños o reunión? Escríbenos y nos encargamos de los pasapalos.',
-    icono: '<path d="M10 38h28M12 38V26h24v12"/><path d="M12 30c4 2 8 2 12 0s8-2 12 0"/><path d="M18 26v-5M24 26v-5M30 26v-5"/><path d="M18 18c-1-2 1-3 0-5M24 18c-1-2 1-3 0-5M30 18c-1-2 1-3 0-5"/>',
-  },
+// Cómo es un día en BIÉRE, de mediodía a la noche.
+const momentos = [
+  { cuando: 'A mediodía', que: 'Menú del día casero, distinto cada día.' },
+  { cuando: 'Por la noche', que: 'Arepas, tequeños y algo para picar con la cerveza.' },
+  { cuando: 'Si hay partido', que: 'Se pone en las pantallas del local.' },
+  { cuando: 'Si celebras algo', que: 'Escríbenos y preparamos los pasapalos.', enlace: true },
 ];
 ---
 <section class="section casa" id="la-casa" aria-labelledby="casa-title">
@@ -36,45 +15,40 @@ const items = [
     <figure class="casa__media">
       <div class="frame shutter drift casa__frame" data-reveal-img>
         <Picture
-          src={foto('brindis-pared-botellas')}
+          src={foto('puerta-de-biere')}
           formats={['avif', 'webp']}
-          widths={[400, 560, 760, 1040]}
+          widths={[400, 560, 760, 960]}
           sizes="(min-width: 1024px) 38vw, 100vw"
           quality={52}
           loading="lazy"
           decoding="async"
-          alt="Dos botellas de cerveza brindando delante de la pared de botellas iluminada de BIÉRE."
+          alt="Gente en la puerta de BIÉRE de noche, bajo el letrero redondo iluminado con el logotipo."
         />
       </div>
-      <div class="casa__sticker" aria-hidden="true">
-        <svg focusable="false"><use href="#logo-biere" /></svg>
-      </div>
-      <figcaption class="casa__caption mano">El logo, en la vida real.</figcaption>
+      <figcaption class="casa__caption mano">La puerta, en Dalmacio García Izcara.</figcaption>
     </figure>
 
     <div class="casa__content">
-      <p class="eyebrow">La casa</p>
       <h2 id="casa-title" class="display h2 casa__title" data-reveal="line">
-        <span class="line"><span style="--l:0">Sabor de allá,</span></span>
-        <span class="line"><span style="--l:1" class="cana">noches de aquí.</span></span>
+        <span class="line"><span style="--l:0">Bar de barrio,</span></span>
+        <span class="line"><span style="--l:1" class="cana">cocina venezolana.</span></span>
       </h2>
       <p class="lead casa__lead" data-reveal>
-        BIÉRE es el bar de la calle Dalmacio García Izcara donde la cocina venezolana de toda la vida se encuentra con una barra de cervezas bien frías, cócteles y fútbol en pantalla. Mesas para compartir y un trato que, según quienes vienen, te hace sentir en casa.
+        BIÉRE ocupa el local de un bar que ya conocía todo el barrio, ahora con nombre nuevo y gente nueva al frente. En la cocina, recetas venezolanas: arepas, tequeños, empanadas y cachapas. En la barra, cerveza nacional e importada (también Polar, la venezolana), cócteles de la casa y vino.
       </p>
 
-      <ul class="casa__list" role="list">
-        {items.map((it, i) => (
-          <li class="casa__item" data-reveal style={`--i:${i % 2}`}>
-            <svg class="casa__icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false" data-reveal="draw" set:html={it.icono.replace(/<(path|circle|rect|ellipse)/g, '<$1 pathLength="1"')} />
-            <h3>{it.titulo}</h3>
-            {it.titulo === 'Celebraciones' ? (
-              <p>¿Cumpleaños o reunión? <a href={negocio.enlaces.instagram} target="_blank" rel="noopener">Escríbenos</a> y nos encargamos de los pasapalos.</p>
-            ) : (
-              <p>{it.texto}</p>
-            )}
-          </li>
+      <dl class="casa__dia">
+        {momentos.map((m, i) => (
+          <div class="casa__momento" data-reveal style={`--i:${i}`}>
+            <dt>{m.cuando}</dt>
+            <dd>
+              {m.enlace ? (
+                <><a href={negocio.enlaces.instagram} target="_blank" rel="noopener">Escríbenos</a> y preparamos los pasapalos.</>
+              ) : m.que}
+            </dd>
+          </div>
         ))}
-      </ul>
+      </dl>
     </div>
   </div>
 </section>

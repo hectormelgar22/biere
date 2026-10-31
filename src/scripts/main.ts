@@ -201,15 +201,15 @@ function estado() {
   const { wd, mins } = ahoraEnCuenca();
   const hoy = diaDe(wd);
   for (const [abre, cierra] of hoy.tramos) {
-    if (mins >= aMin(abre) && mins < aMin(cierra)) return { abierto: true, texto: `Abierto ahora · hasta las ${cierra}` };
+    if (mins >= aMin(abre) && mins < aMin(cierra)) return { abierto: true, texto: `Abierto hasta las ${cierra}` };
   }
   const luego = hoy.tramos.find(([abre]) => aMin(abre) > mins);
-  if (luego) return { abierto: false, texto: `Cerrado ahora · abre hoy a las ${luego[0]}` };
+  if (luego) return { abierto: false, texto: `Cerrado. Abre hoy a las ${luego[0]}` };
   for (let i = 1; i <= 7; i++) {
     const d = diaDe((wd + i) % 7);
-    if (d.tramos.length) return { abierto: false, texto: `Cerrado ahora · abre ${i === 1 ? 'mañana' : `el ${d.dia}`} a las ${d.tramos[0][0]}` };
+    if (d.tramos.length) return { abierto: false, texto: `Cerrado. Abre ${i === 1 ? 'mañana' : `el ${d.dia}`} a las ${d.tramos[0][0]}` };
   }
-  return { abierto: false, texto: 'Cerrado ahora' };
+  return { abierto: false, texto: 'Cerrado' };
 }
 
 function pintarEstado() {

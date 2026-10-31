@@ -50,7 +50,7 @@ const destacadas = new Set(['La favorita de la casa', 'Novedad']);
               tabindex={i === 0 ? 0 : -1}
               data-cat={c.id}
             >
-              {c.corto ?? c.nombre}<span class="carta-tab__count" aria-hidden="true">{c.productos.length}</span>
+              {c.corto ?? c.nombre}
             </button>
           ))}
         </div>
@@ -118,7 +118,7 @@ const destacadas = new Set(['La favorita de la casa', 'Novedad']);
     </div>
 
     <div class="carta__foot">
-      <p>En el local hay además menú del día y platos fuera de carta. Si tienes alguna alergia o intolerancia, pregunta al equipo antes de pedir o llama al {negocio.telefono.visible}.</p>
+      <p>En el local hay además menú del día y platos fuera de carta. Si tienes alguna alergia o intolerancia, pregunta al equipo antes de pedir o llama al <span class="nowrap">{negocio.telefono.visible}</span>.</p>
       <div class="btn-row">
         <a class="btn btn--cana" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
           Pedir en Glovo <Icon name="flecha" class="btn__icon" /><span class="sr-only"> (se abre en otra pestaña)</span>

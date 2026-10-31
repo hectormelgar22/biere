@@ -4,23 +4,22 @@ import Icon from './Icon.astro';
 import { foto, negocio } from '../lib/site';
 
 const galeria = [
-  { clase: 'galeria__item--a', foto: 'brindis-cocteles', widths: [400, 560, 760, 1080], sizes: '(min-width: 720px) 40vw, 100vw', alt: 'Tres amigas brindan con cócteles en la barra de BIÉRE, con la pared de botellas al fondo.', pie: 'brindis en barra' },
-  { clase: 'galeria__item--b', foto: 'noche-de-futbol', widths: [360, 540, 720], sizes: '(min-width: 720px) 24vw, 50vw', alt: 'Noche de partido en BIÉRE: el local lleno mirando el fútbol en la pantalla.', pie: 'noche de partido' },
-  { clase: 'galeria__item--c', foto: 'fachada-de-noche', widths: [320, 640], sizes: '(min-width: 720px) 22vw, 50vw', alt: 'La puerta de BIÉRE de noche, con el letrero redondo iluminado.', pie: 'la puerta, de noche' },
-  { clase: 'galeria__item--d', foto: 'mechada-en-mesa', widths: [400, 560, 760, 1179], sizes: '(min-width: 720px) 55vw, 100vw', alt: 'Plato con carne mechada y queso rallado en una mesa de BIÉRE, con salsas y una malta.', pie: 'la mesa, llena' },
+  { clase: 'galeria__item--a', foto: 'noche-de-futbol', widths: [360, 540, 720], sizes: '(min-width: 720px) 40vw, 100vw', alt: 'Noche de partido en BIÉRE: el local lleno mirando el fútbol en la pantalla.', pie: 'noche de partido' },
+  { clase: 'galeria__item--b', foto: 'fachada-de-noche', widths: [320, 640], sizes: '(min-width: 720px) 24vw, 50vw', alt: 'La entrada de BIÉRE de noche, con la pared de botellas al fondo.', pie: 'la entrada, de noche' },
+  { clase: 'galeria__item--c', foto: 'dia-de-apertura', widths: [360, 720], sizes: '(min-width: 720px) 22vw, 50vw', alt: 'El local lleno el día que abrió BIÉRE.', pie: 'el día que abrimos' },
+  { clase: 'galeria__item--d', foto: 'jarras-de-la-pared', widths: [400, 560, 760, 1080, 1440], sizes: '(min-width: 720px) 55vw, 100vw', alt: 'Un grupo de amigos en una mesa de BIÉRE, bajo las jarras amarillas dibujadas en la pared.', pie: 'bajo las jarras de la pared' },
 ];
 ---
 <section class="section ambiente" id="ambiente" aria-labelledby="ambiente-title">
   <div class="wrap">
     <header class="ambiente__head">
       <div>
-        <p class="eyebrow">Ambiente</p>
         <h2 id="ambiente-title" class="display h2" data-reveal="line">
-          <span class="line"><span style="--l:0">La noche</span></span>
+          <span class="line"><span style="--l:0">Así se está</span></span>
           <span class="line"><span style="--l:1">en BIÉRE</span></span>
         </h2>
       </div>
-      <p class="lead" data-reveal>Pantallas para el fútbol, mesas para compartir y la pared de botellas de fondo. Aquí se viene a cenar, a ver el partido o a celebrar.</p>
+      <p class="lead" data-reveal>Fotos del local tal cual, sacadas de nuestro Instagram: partidos, celebraciones y mesas llenas.</p>
     </header>
 
     <div class="galeria">
@@ -46,7 +45,7 @@ const galeria = [
     <aside class="celebra" aria-labelledby="celebra-title" data-reveal>
       <div class="celebra__copy">
         <h3 id="celebra-title" class="display celebra__title">¿Celebras algo?</h3>
-        <p>Cumpleaños, cenas de grupo o una reunión con amigos. Escríbenos por Instagram o llámanos y lo preparamos: nosotros nos encargamos de los pasapalos.</p>
+        <p>Cumpleaños, cenas de grupo o una reunión con amigos: escríbenos por Instagram o llámanos y preparamos los pasapalos.</p>
       </div>
       <div class="btn-row">
         <a class="btn btn--cana" href={negocio.enlaces.instagram} target="_blank" rel="noopener">

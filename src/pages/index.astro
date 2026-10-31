@@ -9,14 +9,9 @@ import Ambiente from '../components/Ambiente.astro';
 import Opiniones from '../components/Opiniones.astro';
 import Visitanos from '../components/Visitanos.astro';
 import carta from '../data/carta.json';
-import { getImage } from 'astro:assets';
-import { absoluta, foto, negocio } from '../lib/site';
-import { heroFoto } from '../lib/hero';
+import { absoluta, negocio } from '../lib/site';
 
-const heroAvif = await getImage({ src: foto(heroFoto.nombre), format: 'avif', widths: heroFoto.widths, quality: heroFoto.quality });
-const preloadImage = { srcset: heroAvif.srcSet.attribute, sizes: heroFoto.sizes };
-
-const title = 'BIÉRE · Bar y cocina venezolana en Cuenca | Arepas, tequeños y cervezas';
+const title = 'BIÉRE | Bar y cocina venezolana en Cuenca: arepas, tequeños y cervezas';
 const description =
   'Arepas, tequeños, empanadas y cachapas en el centro de Cuenca, con cervezas frías, cócteles y fútbol. Pide a domicilio en Glovo o ven a C. Dalmacio García Izcara, 9.';
 
@@ -81,7 +76,7 @@ const restaurante = {
   },
 };
 ---
-<Base title={title} description={description} schema={[restaurante]} preloadImage={preloadImage}>
+<Base title={title} description={description} schema={[restaurante]}>
   <Hero />
   <LaCasa />
   <Imprescindibles />

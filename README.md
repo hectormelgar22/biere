@@ -53,7 +53,8 @@ Cada plato tiene este aspecto:
 
 - Para **sustituir** una foto, sube un JPG con **exactamente el mismo nombre** (por ejemplo `cachapa.jpg`). La web genera sola las versiones ligeras (AVIF/WebP) en varios tamaños.
 - Usa fotos horizontales o verticales de al menos **1200 px** de ancho y sin textos encima.
-- Fotos actuales: `arepas-reina-pepiada` (portada), `arepa-queso-de-mano`, `tequenos`, `mesa-para-compartir`, `cachapa`, `hamburguesa`, `brindis-pared-botellas`, `brindis-cocteles`, `noche-de-futbol`, `fachada-de-noche`, `mechada-en-mesa`.
+- Fotos actuales: portada `hero-arepa-mechada`, `brindis-pared-botellas` y `brindis-cocteles`; la casa `puerta-de-biere`; platos `arepa-queso-de-mano`, `tequenos`, `mesa-para-compartir`, `cachapa`, `hamburguesa`; ambiente `noche-de-futbol`, `fachada-de-noche`, `dia-de-apertura`, `jarras-de-la-pared`.
+- Las palabras de la portada («Arepas, birras y panas.») y sus fotos se cambian en `src/components/Hero.astro`.
 - Los textos manuscritos sobre las fotos (las «anotaciones») están en `src/components/Hero.astro` y `src/components/Imprescindibles.astro`.
 
 ---
@@ -81,7 +82,7 @@ npm run preview    # sirve dist/ para probar la versión final
 
 ## Pendiente de confirmar con BIÉRE
 
-- **Permiso de uso de las fotos** (todas proceden del Instagram oficial @biere_bar) y consentimiento de las personas que aparecen en «brindis-cocteles» y «noche-de-futbol».
+- **Permiso de uso de las fotos** (todas proceden del Instagram oficial @biere_bar) y consentimiento de las personas que aparecen en «brindis-cocteles», «noche-de-futbol», «puerta-de-biere», «dia-de-apertura» y «jarras-de-la-pared».
 - **Horario**: tomado de la ficha de Google (L y X–D 11:00–15:30 y 19:00–23:30; martes cerrado). Confirmar y avisar si cambia en festivos.
 - **Precios del local**: no se publican hasta tenerlos confirmados.
 - **Disponibilidad** de mandocas, jojoticos, tequeños de guayaba, tiramisú, cannolo y cerveza con licor de frutas (aparecen como «Pregunta si hay»).
