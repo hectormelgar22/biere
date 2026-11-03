@@ -1,0 +1,102 @@
+---
+// Fachada de BIÉRE dibujada a línea (como el logotipo), a partir de la foto real del local.
+// La puerta es un hueco: detrás se ve el interior del bar. La persiana tapa el hueco y sube con el scroll.
+const taburetes = [690, 800, 910];
+const filasBotellas = [492, 512, 532, 552, 572];
+// Huecos de la puerta (x, y, ancho, alto) en coordenadas del dibujo.
+const P = { x: 480, y: 380, w: 130, h: 340 };
+const hueco = `M${P.x} ${P.y}V${P.y + P.h}H${P.x + P.w}V${P.y}Z`;
+---
+<svg class="fachada" data-cine-fachada viewBox="-300 0 1500 800" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="fz-farola" cx="0.5" cy="0.15" r="0.75">
+      <stop offset="0" stop-color="#f6c230" stop-opacity="0.16" />
+      <stop offset="1" stop-color="#f6c230" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="fz-letrero">
+      <stop offset="0.45" stop-color="#ffe7a3" stop-opacity="0.55" />
+      <stop offset="1" stop-color="#f6c230" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="fz-escaparate" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6c230" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#e8952c" stop-opacity="0.05" />
+    </linearGradient>
+    <clipPath id="fz-puerta"><path d={hueco} /></clipPath>
+  </defs>
+
+  <!-- Noche y edificio, con la puerta abierta como hueco -->
+  <path class="fz-noche" fill-rule="evenodd" d={`M-5000 -5000H6200V5800H-5000Z${hueco}`} />
+  <path class="fz-edificio" fill-rule="evenodd" d={`M200 40H1010V720H200Z${hueco}`} />
+  <ellipse cx="640" cy="330" rx="560" ry="420" fill="url(#fz-farola)" />
+
+  <!-- Escaparate iluminado -->
+  <rect x="620" y="380" width="380" height="340" fill="url(#fz-escaparate)" />
+  <g class="fz-botellas">
+    {filasBotellas.map((y) =>
+      Array.from({ length: 22 }, (_, i) => <path pathLength="1" d={`M${634 + i * 16.5} ${y}v-11`} />),
+    )}
+  </g>
+
+  <g class="fz-trazo">
+    <!-- Plantas de arriba -->
+    <path pathLength="1" d="M200 40V300M1010 40V300" />
+    <path pathLength="1" d="M180 300H1030V314H180Z" />
+    <path pathLength="1" d="M250 90h150v140H250ZM325 90v140M240 240h170" />
+    <path pathLength="1" d="M560 90h150v140H560ZM635 90v140M550 240h170" />
+    <path pathLength="1" d="M830 90h150v140H830ZM905 90v140M820 240h170" />
+    <!-- Cables -->
+    <path pathLength="1" d="M300 314c24 24 70 20 104 40M870 314c-20 30 30 34 14 66" />
+
+    <!-- Aires acondicionados -->
+    <path pathLength="1" d="M290 236h82v56h-82ZM382 244h82v56h-82Z" />
+    <circle pathLength="1" cx="331" cy="264" r="18" />
+    <circle pathLength="1" cx="423" cy="272" r="18" />
+
+    <!-- Portal del vecino, pilar con el 9 -->
+    <path pathLength="1" d="M228 402H392V414H228Z" />
+    <path pathLength="1" d="M250 420h130v300H250ZM262 432h106v288" />
+    <path pathLength="1" d="M390 330h80v390" />
+
+    <!-- Persiana enrollada (cajón) y marco del local -->
+    <path pathLength="1" d="M470 328h545v32H470ZM470 344h545" />
+    <path pathLength="1" d="M470 360h540v360H470Z" />
+    <path class="fz-marco" pathLength="1" d={hueco} />
+
+    <!-- Escaparate: cristales, travesaño, barra exterior y pizarra -->
+    <path pathLength="1" d="M620 380h380v340H620ZM745 380v340M870 380v340M620 470h380" />
+    <path pathLength="1" d="M612 602h396v10H612ZM650 612v16M960 612v16" />
+    <path pathLength="1" d="M918 500h56v74h-56ZM926 516h40M926 530h34M926 544h38" />
+
+    <!-- Taburetes metálicos -->
+    {taburetes.map((x) => (
+      <path pathLength="1" d={`M${x - 26} 632H${x + 26}M${x - 22} 632V606H${x + 22}V632M${x - 24} 636L${x - 34} 722M${x + 24} 636L${x + 34} 722M${x - 8} 636L${x - 12} 722M${x + 8} 636L${x + 12} 722M${x - 30} 690H${x + 30}`} />
+    ))}
+
+    <!-- Acera -->
+    <path pathLength="1" d="M-300 722H1500M-300 762H1500M90 722l-40 78M360 722l-14 78M640 722v78M920 722l14 78M1190 722l40 78" />
+  </g>
+
+  <text class="fz-numero" x="430" y="486" text-anchor="middle">9</text>
+
+  <!-- Letrero redondo con el logotipo: se enciende como un neón -->
+  <g class="fz-letrero">
+    <path class="fz-trazo-solo" pathLength="1" d="M560 300v-12" />
+    <circle class="fz-halo" cx="560" cy="232" r="118" fill="url(#fz-letrero)" />
+    <circle class="fz-disco" cx="560" cy="232" r="58" />
+    <use href="#logo-biere" x="516" y="186" width="88" height="94" class="fz-logo" />
+  </g>
+
+  <!-- Persiana de la puerta -->
+  <g clip-path="url(#fz-puerta)">
+    <g class="fz-persiana-intro">
+      <g class="fz-persiana">
+        <rect x={P.x} y={P.y} width={P.w} height={P.h} class="fz-lamas" />
+        {Array.from({ length: 27 }, (_, i) => <path class="fz-lama" d={`M${P.x} ${P.y + 12 + i * 12.4}H${P.x + P.w}`} />)}
+        <path class="fz-tirador" d={`M${P.x + 50} ${P.y + P.h - 10}H${P.x + 80}`} />
+      </g>
+    </g>
+  </g>
+
+  <!-- Punto de referencia para el zoom (centro de la puerta) -->
+  <rect data-puerta x={P.x} y={P.y} width={P.w} height={P.h} fill="none" stroke="none" />
+</svg>

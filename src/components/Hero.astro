@@ -1,101 +1,102 @@
 ---
-import { getImage } from 'astro:assets';
+import { getImage, Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import Anotacion from './Anotacion.astro';
+import Fachada from './Fachada.astro';
 import { foto, negocio, url } from '../lib/site';
 
-// Tres paneles, como tres persianas de bar que se abren. Cada uno lleva una palabra del titular.
-const paneles = [
-  {
-    palabra: 'Arepas,',
-    foto: 'hero-arepa-mechada',
-    movil: 'hero-m-arepa',
-    alt: 'Arepa con carne mechada y queso rallado, salsas caseras y una Maltín en una mesa de BIÉRE.',
-    posicion: '50% 62%',
-    anotacion: { texto: 'carne mechada', x: '8%', y: '20%', dir: 'dr' as const, rotar: '-5deg', girar: '18deg' },
-  },
-  {
-    palabra: 'birras',
-    foto: 'brindis-pared-botellas',
-    movil: 'hero-m-birras',
-    alt: 'Dos botellas de cerveza brindando delante de la pared de botellas de BIÉRE.',
-    posicion: '50% 38%',
-    anotacion: { texto: 'bien frías', x: '56%', y: '10%', dir: 'dl' as const, rotar: '-4deg' },
-  },
-  {
-    palabra: 'y panas.',
-    foto: 'brindis-cocteles',
-    movil: 'hero-m-panas',
-    alt: 'Tres amigas brindan con cócteles en la barra de BIÉRE.',
-    posicion: '40% 45%',
-  },
+// "Entra en BIÉRE": la fachada dibujada → la persiana sube → la cámara cruza la puerta → la barra real.
+// Sin JavaScript o con "reducir movimiento" se muestra directamente el interior (última escena).
+
+// Interior: en vertical (móvil) la barra con copas y grifos; en horizontal, la pared de botellas.
+const MOVIL = '(max-aspect-ratio: 1/1)';
+const [vAvif, vWebp, hAvif, hWebp, fallback] = await Promise.all([
+  getImage({ src: foto('interior-barra'), format: 'avif', widths: [480, 765], quality: 48 }),
+  getImage({ src: foto('interior-barra'), format: 'webp', widths: [480, 765], quality: 55 }),
+  getImage({ src: foto('interior-botellas'), format: 'avif', widths: [760, 1100, 1360], quality: 45 }),
+  getImage({ src: foto('interior-botellas'), format: 'webp', widths: [760, 1100, 1360], quality: 52 }),
+  getImage({ src: foto('interior-botellas'), format: 'jpg', width: 1100, quality: 60 }),
+]);
+
+// Lo que "se sirve" en la barra al entrar.
+const servido = [
+  { foto: 'hero-arepa-mechada', pie: 'arepa de mechada', alt: 'Arepa con carne mechada y queso rallado en una mesa de BIÉRE.' },
+  { foto: 'brindis-pared-botellas', pie: 'birra bien fría', alt: 'Dos botellas de cerveza brindando en la barra de BIÉRE.' },
+  { foto: 'brindis-cocteles', pie: 'los panas', alt: 'Tres amigas brindan con cócteles en la barra de BIÉRE.' },
 ];
 
-// Dirección de arte: en móvil cada panel es una franja horizontal, así que se sirve
-// un recorte apaisado (mucho más ligero); en escritorio, la foto vertical.
-const MOVIL = '(max-width: 1023.98px)';
-const imagenes = await Promise.all(
-  paneles.map(async (p) => {
-    const q = { quality: 52 };
-    const [mAvif, mWebp, dAvif, dWebp, fallback] = await Promise.all([
-      getImage({ src: foto(p.movil), format: 'avif', widths: [480, 760, 1080], quality: 45 }),
-      getImage({ src: foto(p.movil), format: 'webp', widths: [480, 760, 1080], quality: 50 }),
-      getImage({ src: foto(p.foto), format: 'avif', widths: [400, 560, 720], ...q }),
-      getImage({ src: foto(p.foto), format: 'webp', widths: [400, 560, 720], ...q }),
-      getImage({ src: foto(p.foto), format: 'jpg', width: 560, ...q }),
-    ]);
-    return { mAvif, mWebp, dAvif, dWebp, fallback };
-  }),
-);
-
-// "todos los días menos el martes", calculado a partir del horario.
 const cerrados = negocio.horario.dias.filter((d) => !d.tramos.length).map((d) => d.dia);
 const cuando = cerrados.length ? `todos los días menos el ${cerrados.join(' y el ')}` : 'todos los días';
 ---
-<section class="hero" aria-labelledby="hero-title">
-  <div class="hero__stage">
-    {paneles.map((p, i) => (
-      <figure class="hero__panel" style={`--i:${i}`}>
-        <div class="frame frame--velo shutter hero__frame">
-          <picture>
-            <source media={MOVIL} type="image/avif" srcset={imagenes[i].mAvif.srcSet.attribute} sizes="100vw" />
-            <source media={MOVIL} type="image/webp" srcset={imagenes[i].mWebp.srcSet.attribute} sizes="100vw" />
-            <source type="image/avif" srcset={imagenes[i].dAvif.srcSet.attribute} sizes="34vw" />
-            <source type="image/webp" srcset={imagenes[i].dWebp.srcSet.attribute} sizes="34vw" />
-            <img
-              src={imagenes[i].fallback.src}
-              width={imagenes[i].fallback.attributes.width}
-              height={imagenes[i].fallback.attributes.height}
-              alt={p.alt}
-              loading="eager"
-              fetchpriority={i === 0 ? 'high' : 'auto'}
-              style={`--pos:${p.posicion}`}
-            />
-          </picture>
-        </div>
-        {p.anotacion && <Anotacion {...p.anotacion} retardo={`${0.15 * i}s`} ocultarMovil={i === 1} />}
-      </figure>
-    ))}
-    <h1 id="hero-title" class="hero__title display">
-      <span class="sr-only">BIÉRE, bar y cocina venezolana en Cuenca: </span>
-      {paneles.map((p, i) => (
-        <><span class:list={['hero__word', { 'hero__word--cana': i === 2 }]} style={`--i:${i}`}><span>{p.palabra}</span></span>{i < paneles.length - 1 && ' '}</>
-      ))}
-    </h1>
-  </div>
-
-  <div class="wrap hero__bar">
-    <p class="hero__lead">
-      Cocina venezolana y cerveza fría en el centro de Cuenca. Comidas y cenas {cuando}.
-    </p>
-    <div class="hero__cta">
-      <div class="btn-row">
-        <a class="btn btn--cana" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
-          Pedir a domicilio <Icon name="flecha" class="btn__icon" /><span class="sr-only"> en Glovo (se abre en otra pestaña)</span>
-        </a>
-        <a class="btn btn--ghost" href={url('#carta')}>Ver la carta</a>
-      </div>
-      <p class="hero__note">A domicilio con Glovo, según tu dirección y su horario. <a href={url('#visitanos')} data-estado-texto>Ver horario del local</a></p>
+<section class="cine" data-cine aria-labelledby="hero-title">
+  <div class="cine__stage" data-cine-stage>
+    <!-- Dentro del bar -->
+    <div class="cine__dentro">
+      <picture>
+        <source media={MOVIL} type="image/avif" srcset={vAvif.srcSet.attribute} sizes="100vw" />
+        <source media={MOVIL} type="image/webp" srcset={vWebp.srcSet.attribute} sizes="100vw" />
+        <source type="image/avif" srcset={hAvif.srcSet.attribute} sizes="100vw" />
+        <source type="image/webp" srcset={hWebp.srcSet.attribute} sizes="100vw" />
+        <img
+          src={fallback.src}
+          width={fallback.attributes.width}
+          height={fallback.attributes.height}
+          alt="La barra de BIÉRE por dentro: copas colgadas, grifos de cerveza y la pared de botellas."
+          fetchpriority="high"
+          loading="eager"
+        />
+      </picture>
+      <div class="cine__sombra" aria-hidden="true"></div>
     </div>
+
+    <!-- La calle: fachada dibujada -->
+    <div class="cine__calle">
+      <Fachada />
+    </div>
+
+    <div class="cine__intro" aria-hidden="true">
+      <p class="cine__kicker">Bar y cocina venezolana en Cuenca</p>
+      <p class="cine__pasa display"><span>Pasa,</span> <span class="cana">pana.</span></p>
+      <p class="cine__guia"><span class="mano">desliza para entrar</span>
+        <svg viewBox="0 0 40 60" focusable="false"><path pathLength="1" d="M20 4c-6 14 6 22 0 36M10 32l10 14 10-14" /></svg>
+      </p>
+    </div>
+
+    <!-- Ya dentro -->
+    <div class="cine__barra">
+      <div class="wrap cine__barra-inner">
+        <div class="cine__texto">
+          <h1 id="hero-title" class="cine__titulo display">
+            <span class="sr-only">BIÉRE, bar y cocina venezolana en Cuenca: </span>
+            <span class="cine__linea"><span>Arepas,</span></span>
+            <span class="cine__linea"><span>birras</span></span>
+            <span class="cine__linea cana"><span>y panas.</span></span>
+          </h1>
+          <p class="cine__lead">Cocina venezolana y cerveza fría en C. Dalmacio García Izcara, 9. Comidas y cenas {cuando}.</p>
+          <div class="btn-row">
+            <a class="btn btn--cana" href={negocio.enlaces.glovo} target="_blank" rel="noopener">
+              Pedir a domicilio <Icon name="flecha" class="btn__icon" /><span class="sr-only"> en Glovo (se abre en otra pestaña)</span>
+            </a>
+            <a class="btn btn--ghost" href={url('#carta')}>Ver la carta</a>
+          </div>
+          <p class="cine__nota">A domicilio con Glovo, según tu dirección y su horario. <a href={url('#visitanos')} data-estado-texto>Ver horario del local</a></p>
+        </div>
+
+        <ul class="cine__servido" role="list">
+          {servido.map((s, i) => (
+            <li class="cine__plato" style={`--i:${i}`}>
+              <figure>
+                <div class="frame">
+                  <Picture src={foto(s.foto)} formats={['avif', 'webp']} widths={[280, 420, 560]} sizes="(min-width: 1024px) 15vw, 30vw" quality={52} loading="lazy" decoding="async" alt={s.alt} />
+                </div>
+                <figcaption class="mano">{s.pie}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <Anotacion texto="aquí es" x="var(--ax, 70%)" y="var(--ay, 46%)" dir="dl" rotar="-6deg" ancho="4.5rem" girar="10deg" />
   </div>
 </section>

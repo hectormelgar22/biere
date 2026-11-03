@@ -28,6 +28,69 @@ function cargarManuscrita() {
 if (document.readyState === 'complete') cargarManuscrita();
 else window.addEventListener('load', cargarManuscrita, { once: true });
 
+/* ---------- Hero «Entra en BIÉRE»: el scroll sube la persiana y cruza la puerta ---------- */
+const cine = document.querySelector<HTMLElement>('[data-cine]');
+if (cine && !reduceMotion.matches) {
+  const stage = cine.querySelector<HTMLElement>('[data-cine-stage]')!;
+  const svg = cine.querySelector<SVGSVGElement>('[data-cine-fachada]')!;
+  const barra = cine.querySelector<HTMLElement>('.cine__barra')!;
+  const tramo = (p: number, desde: number, hasta: number) => Math.min(1, Math.max(0, (p - desde) / (hasta - desde)));
+  const suave = (t: number) => t * t * (3 - 2 * t);
+  let inicio = 0, recorrido = 1, activo = false, pendiente = false;
+
+  // Puerta del dibujo (mismas coordenadas que en Fachada.astro).
+  const PUERTA = { x: 480, y: 380, w: 130, h: 340 };
+  let vb = [-300, 0, 1500, 800], recorta = false;
+
+  // Encuadre según la orientación: en vertical, puerta y letrero; en horizontal, toda la fachada.
+  const encuadrar = () => {
+    const vertical = innerWidth / innerHeight < 1;
+    vb = vertical ? [400, -63, 402, 870] : [-300, 0, 1500, 800];
+    recorta = vertical;
+    svg.setAttribute('viewBox', vb.join(' '));
+    svg.setAttribute('preserveAspectRatio', vertical ? 'xMidYMid slice' : 'xMidYMid meet');
+  };
+
+  // Calcula dónde cae la puerta en pantalla a partir del viewBox (sin medir el SVG en el DOM).
+  const medir = () => {
+    const W = stage.clientWidth, H = stage.clientHeight;
+    const k = (recorta ? Math.max : Math.min)(W / vb[2], H / vb[3]);
+    const tx = (W - vb[2] * k) / 2 - vb[0] * k, ty = (H - vb[3] * k) / 2 - vb[1] * k;
+    const x = tx + PUERTA.x * k, y = ty + PUERTA.y * k, w = PUERTA.w * k, h = PUERTA.h * k;
+    stage.style.setProperty('--ox', `${x + w / 2}px`);
+    stage.style.setProperty('--oy', `${y + h / 2}px`);
+    stage.style.setProperty('--s', String(Math.max(W / w, H / h) * 1.12));
+    stage.style.setProperty('--ax', `${x + w + 14}px`);
+    stage.style.setProperty('--ay', `${y - 54}px`);
+    inicio = cine.offsetTop;
+    recorrido = Math.max(1, cine.offsetHeight - innerHeight);
+  };
+
+  const pintar = () => {
+    pendiente = false;
+    const p = Math.min(1, Math.max(0, (scrollY - inicio) / recorrido));
+    const a = 0.12 + 0.88 * suave(tramo(p, 0, 0.3));
+    const b = Math.pow(tramo(p, 0.22, 0.62), 2.2);
+    const c = suave(tramo(p, 0.6, 0.92));
+    stage.style.setProperty('--a', a.toFixed(4));
+    stage.style.setProperty('--b', b.toFixed(4));
+    stage.style.setProperty('--c', c.toFixed(4));
+    stage.classList.toggle('is-dentro', c > 0.35);
+  };
+  const alScroll = () => { if (activo && !pendiente) { pendiente = true; requestAnimationFrame(pintar); } };
+
+  encuadrar();
+  // Las medidas se toman tras el primer pintado, cuando el navegador ya ha maquetado la página.
+  requestAnimationFrame(() => requestAnimationFrame(() => { medir(); pintar(); }));
+  new IntersectionObserver(([e]) => { activo = e.isIntersecting; if (activo) alScroll(); }).observe(cine);
+  window.addEventListener('scroll', alScroll, { passive: true });
+  window.addEventListener('resize', () => { encuadrar(); medir(); pintar(); });
+  // Si alguien llega con el teclado a los botones del interior, se le lleva al final de la escena.
+  barra.addEventListener('focusin', () => {
+    if (!stage.classList.contains('is-dentro')) window.scrollTo({ top: inicio + recorrido, behavior: 'instant' });
+  });
+}
+
 /* ---------- Menú móvil (dialog nativo: foco atrapado y Esc incluidos) ---------- */
 const menu = document.querySelector<HTMLDialogElement>('[data-menu]');
 const menuOpen = document.querySelector<HTMLButtonElement>('[data-menu-open]');
