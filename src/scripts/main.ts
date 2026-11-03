@@ -28,53 +28,26 @@ function cargarManuscrita() {
 if (document.readyState === 'complete') cargarManuscrita();
 else window.addEventListener('load', cargarManuscrita, { once: true });
 
-/* ---------- Hero «Entra en BIÉRE»: el scroll sube la persiana y cruza la puerta ---------- */
+/* ---------- Hero: el scroll atraviesa la «I» de BIÉRE ---------- */
 const cine = document.querySelector<HTMLElement>('[data-cine]');
 if (cine && !reduceMotion.matches) {
   const stage = cine.querySelector<HTMLElement>('[data-cine-stage]')!;
-  const svg = cine.querySelector<SVGSVGElement>('[data-cine-fachada]')!;
+  const letras = cine.querySelector<HTMLElement>('[data-letras]')!;
   const barra = cine.querySelector<HTMLElement>('.cine__barra')!;
+  const i = JSON.parse(letras.dataset.i!) as { cx: number; cy: number; w: number; h: number };
   const tramo = (p: number, desde: number, hasta: number) => Math.min(1, Math.max(0, (p - desde) / (hasta - desde)));
   const suave = (t: number) => t * t * (3 - 2 * t);
   let inicio = 0, recorrido = 1, activo = false, pendiente = false;
 
-  // Puerta del dibujo (mismas coordenadas que en Fachada.astro).
-  const PUERTA = { x: 655, y: 500, w: 123, h: 322 };
-  let vb = [0, 0, 1672, 941];
-
-  // En horizontal se ve toda la fachada. En vertical, el dibujo se escala para que el letrero
-  // quede siempre debajo del titular y la puerta por encima de la barra de pedido.
-  const encuadrar = () => {
-    const W = innerWidth, H = Math.max(innerHeight, 576);
-    const vertical = W / H < 1;
-    if (vertical) {
-      const ancho = W >= 1024;
-      const letra = ancho ? Math.min(Math.max(96, W * 0.11), 200) : Math.min(Math.max(54.4, W * 0.19), 192);
-      const cabecera = ancho ? 76 : 64;
-      const kicker = W < 380 ? 36 : 18;
-      const finTitulo = cabecera + 20 + kicker + 12 + letra * 0.88 * (ancho ? 2 : 1);
-      const arriba = finTitulo + 22;
-      const abajo = H - (ancho ? 0 : 72) - 12;
-      const k = (abajo - arriba) / (826 - 183); // del borde del letrero (y=183) al suelo (y=826)
-      vb = [850 - W / (2 * k), 183 - arriba / k, W / k, H / k];
-      stage.style.setProperty('--fin-titulo', `${finTitulo}px`);
-    } else {
-      vb = [0, 0, 1672, 941];
-    }
-    svg.setAttribute('viewBox', vb.map((n) => n.toFixed(1)).join(' '));
-  };
-
-  // Calcula dónde cae la puerta en pantalla a partir del viewBox (sin medir el SVG en el DOM).
   const medir = () => {
     const W = stage.clientWidth, H = stage.clientHeight;
-    const k = Math.max(W / vb[2], H / vb[3]);
-    const tx = (W - vb[2] * k) / 2 - vb[0] * k, ty = (H - vb[3] * k) / 2 - vb[1] * k;
-    const x = tx + PUERTA.x * k, y = ty + PUERTA.y * k, w = PUERTA.w * k, h = PUERTA.h * k;
-    stage.style.setProperty('--ox', `${x + w / 2}px`);
-    stage.style.setProperty('--oy', `${y + h / 2}px`);
-    stage.style.setProperty('--s', String(Math.max(W / w, H / h) * 1.12));
-    stage.style.setProperty('--ax', `${x + w + 14}px`);
-    stage.style.setProperty('--ay', `${y - 54}px`);
+    const lw = letras.offsetWidth, lh = letras.offsetHeight;
+    const ox = letras.offsetLeft + lw * i.cx, oy = letras.offsetTop + lh * i.cy;
+    stage.style.setProperty('--ox', `${ox}px`);
+    stage.style.setProperty('--oy', `${oy}px`);
+    stage.style.setProperty('--tx', `${W / 2 - ox}px`);
+    stage.style.setProperty('--ty', `${H / 2 - oy}px`);
+    stage.style.setProperty('--s', String(Math.max(W / (lw * i.w), H / (lh * i.h)) * 1.25));
     inicio = cine.offsetTop;
     recorrido = Math.max(1, cine.offsetHeight - innerHeight);
   };
@@ -82,22 +55,36 @@ if (cine && !reduceMotion.matches) {
   const pintar = () => {
     pendiente = false;
     const p = Math.min(1, Math.max(0, (scrollY - inicio) / recorrido));
-    const a = 0.12 + 0.88 * suave(tramo(p, 0, 0.3));
-    const b = Math.pow(tramo(p, 0.22, 0.62), 2.2);
-    const c = suave(tramo(p, 0.6, 0.92));
-    stage.style.setProperty('--a', a.toFixed(4));
+    const b = Math.pow(tramo(p, 0.02, 0.55), 2.4);
+    const c = suave(tramo(p, 0.55, 0.92));
     stage.style.setProperty('--b', b.toFixed(4));
     stage.style.setProperty('--c', c.toFixed(4));
     stage.classList.toggle('is-dentro', c > 0.35);
   };
   const alScroll = () => { if (activo && !pendiente) { pendiente = true; requestAnimationFrame(pintar); } };
 
-  encuadrar();
   // Las medidas se toman tras el primer pintado, cuando el navegador ya ha maquetado la página.
   requestAnimationFrame(() => requestAnimationFrame(() => { medir(); pintar(); }));
   new IntersectionObserver(([e]) => { activo = e.isIntersecting; if (activo) alScroll(); }).observe(cine);
   window.addEventListener('scroll', alScroll, { passive: true });
-  window.addEventListener('resize', () => { encuadrar(); medir(); pintar(); });
+  window.addEventListener('resize', () => { medir(); pintar(); });
+
+  // Con ratón, la pared se mueve dentro de las letras, como al mirar por una ventana.
+  if (window.matchMedia('(hover: hover)').matches) {
+    let mx = 0, my = 0, ratonPendiente = false;
+    stage.addEventListener('pointermove', (e) => {
+      mx = e.clientX / innerWidth * 2 - 1;
+      my = e.clientY / innerHeight * 2 - 1;
+      if (ratonPendiente) return;
+      ratonPendiente = true;
+      requestAnimationFrame(() => {
+        ratonPendiente = false;
+        stage.style.setProperty('--mx', mx.toFixed(3));
+        stage.style.setProperty('--my', my.toFixed(3));
+      });
+    }, { passive: true });
+  }
+
   // Si alguien llega con el teclado a los botones del interior, se le lleva al final de la escena.
   barra.addEventListener('focusin', () => {
     if (!stage.classList.contains('is-dentro')) window.scrollTo({ top: inicio + recorrido, behavior: 'instant' });

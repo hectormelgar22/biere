@@ -53,8 +53,8 @@ Cada plato tiene este aspecto:
 
 - Para **sustituir** una foto, sube un JPG con **exactamente el mismo nombre** (por ejemplo `cachapa.jpg`). La web genera sola las versiones ligeras (AVIF/WebP) en varios tamaños.
 - Usa fotos horizontales o verticales de al menos **1200 px** de ancho y sin textos encima.
-- Fotos actuales: portada (interior) `interior-barra` (móvil) e `interior-botellas` (ordenador), y las tres fotos que «se sirven» en la barra: `hero-arepa-mechada`, `brindis-pared-botellas` y `brindis-cocteles`; la casa `puerta-de-biere`; platos `arepa-queso-de-mano`, `tequenos`, `mesa-para-compartir`, `cachapa`, `hamburguesa`; ambiente `noche-de-futbol`, `fachada-de-noche`, `dia-de-apertura`, `jarras-de-la-pared`.
-- La portada («Entra en BIÉRE») está en `src/components/Hero.astro`; la fachada dibujada, en `src/components/Fachada.astro`, y la animación al hacer scroll, al principio de `src/scripts/main.ts`.
+- Fotos actuales: portada `interior-botellas` (la pared que se ve dentro de las letras), y las tres fotos que «se sirven» en la barra: `hero-arepa-mechada`, `brindis-pared-botellas` y `brindis-cocteles`; la casa `puerta-de-biere`; platos `arepa-queso-de-mano`, `tequenos`, `mesa-para-compartir`, `cachapa`, `hamburguesa`; ambiente `noche-de-futbol`, `fachada-de-noche`, `dia-de-apertura`, `jarras-de-la-pared`.
+- La portada está en `src/components/Hero.astro`; las letras de neón de BIÉRE, en `src/components/LetrasBiere.astro`, y la animación al hacer scroll (se cruza la «I»), al principio de `src/scripts/main.ts`.
 - Los textos manuscritos sobre las fotos (las «anotaciones») están en `src/components/Hero.astro` y `src/components/Imprescindibles.astro`.
 
 ---

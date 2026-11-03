@@ -1,0 +1,14 @@
+---
+// El nombre BIÉRE como ventana: una capa negra con las letras recortadas deja ver la foto de detrás.
+// Encima van los tubos de neón (contorno) y una tapa por letra que se apaga al encenderse cada una.
+import letras from '../assets/svg/letras-biere.json';
+
+const recorte = letras.letras.map((l) => l.d).join('');
+---
+<div class="letras" data-letras data-i={JSON.stringify(letras.i)}>
+  <svg viewBox={`0 0 ${letras.ancho} ${letras.alto}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path class="letras__noche" fill-rule="evenodd" d={`M-30000 -30000H31000V31000H-30000Z${recorte}`} />
+    {letras.letras.map((l, i) => <path class="letras__tapa" style={`--i:${i}`} d={l.d} />)}
+    {letras.letras.map((l, i) => <path class="letras__neon" style={`--i:${i}`} d={l.d} />)}
+  </svg>
+</div>

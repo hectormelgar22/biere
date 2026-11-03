@@ -1,23 +1,17 @@
 ---
 import { getImage, Picture } from 'astro:assets';
 import Icon from './Icon.astro';
-import Anotacion from './Anotacion.astro';
-import Fachada from './Fachada.astro';
+import LetrasBiere from './LetrasBiere.astro';
 import { foto, negocio, url } from '../lib/site';
 
-// "Entra en BIÉRE": la fachada dibujada → la persiana sube → la cámara cruza la puerta → la barra real.
-// Sin JavaScript o con "reducir movimiento" se muestra directamente el interior (última escena).
-
-// Interior: en vertical (móvil) la barra con copas y grifos; en horizontal, la pared de botellas.
-const { fachada } = Astro.props as { fachada: string };
-const MOVIL = '(max-aspect-ratio: 1/1)';
-const [vAvif, vWebp, hAvif, hWebp, fallback] = await Promise.all([
-  getImage({ src: foto('interior-barra'), format: 'avif', widths: [480, 765], quality: 48 }),
-  getImage({ src: foto('interior-barra'), format: 'webp', widths: [480, 765], quality: 55 }),
-  getImage({ src: foto('interior-botellas'), format: 'avif', widths: [760, 1100, 1360], quality: 45 }),
-  getImage({ src: foto('interior-botellas'), format: 'webp', widths: [760, 1100, 1360], quality: 52 }),
+// El nombre BIÉRE como ventana a la pared de botellas; al hacer scroll se cruza la «I» y se llega a la barra.
+// Sin JavaScript o con "reducir movimiento" se muestra directamente la última escena.
+const [avif, webp, fallback] = await Promise.all([
+  getImage({ src: foto('interior-botellas'), format: 'avif', widths: [760, 1000, 1360], quality: 45 }),
+  getImage({ src: foto('interior-botellas'), format: 'webp', widths: [760, 1000, 1360], quality: 52 }),
   getImage({ src: foto('interior-botellas'), format: 'jpg', width: 1100, quality: 60 }),
 ]);
+const TAMANOS = '(max-aspect-ratio: 1/1) 130vw, 100vw';
 
 // Lo que "se sirve" en la barra al entrar.
 const servido = [
@@ -34,32 +28,29 @@ const cuando = cerrados.length ? `todos los días menos el ${cerrados.join(' y e
     <!-- Dentro del bar -->
     <div class="cine__dentro">
       <picture>
-        <source media={MOVIL} type="image/avif" srcset={vAvif.srcSet.attribute} sizes="100vw" />
-        <source media={MOVIL} type="image/webp" srcset={vWebp.srcSet.attribute} sizes="100vw" />
-        <source type="image/avif" srcset={hAvif.srcSet.attribute} sizes="100vw" />
-        <source type="image/webp" srcset={hWebp.srcSet.attribute} sizes="100vw" />
+        <source type="image/avif" srcset={avif.srcSet.attribute} sizes={TAMANOS} />
+        <source type="image/webp" srcset={webp.srcSet.attribute} sizes={TAMANOS} />
         <img
           src={fallback.src}
           width={fallback.attributes.width}
           height={fallback.attributes.height}
-          alt="La barra de BIÉRE por dentro: copas colgadas, grifos de cerveza y la pared de botellas."
+          alt="La pared de botellas de BIÉRE, iluminada, de suelo a techo."
           loading="eager"
-          fetchpriority="low"
+          fetchpriority="high"
         />
       </picture>
       <div class="cine__sombra" aria-hidden="true"></div>
     </div>
 
-    <!-- La calle: fachada dibujada -->
+    <!-- El nombre, recortado sobre el negro -->
     <div class="cine__calle">
-      <Fachada imagen={fachada} />
+      <LetrasBiere />
     </div>
 
     <div class="cine__intro" aria-hidden="true">
-      <p class="cine__kicker">Bar y cocina venezolana en Cuenca</p>
-      <p class="cine__pasa display"><span>Pasa,</span> <span class="cana">pana.</span></p>
-      <p class="cine__guia"><span class="mano">desliza para entrar</span>
-        <svg viewBox="0 0 40 60" focusable="false"><path pathLength="1" d="M20 4c-6 14 6 22 0 36M10 32l10 14 10-14" /></svg>
+      <p class="cine__marca">Bar y cocina venezolana en Cuenca</p>
+      <p class="cine__guia"><span class="mano">desliza</span>
+        <svg viewBox="0 0 40 60" focusable="false"><path d="M20 4c-6 14 6 22 0 36M10 32l10 14 10-14" /></svg>
       </p>
     </div>
 
@@ -97,7 +88,5 @@ const cuando = cerrados.length ? `todos los días menos el ${cerrados.join(' y e
         </ul>
       </div>
     </div>
-
-    <Anotacion texto="aquí es" x="var(--ax, 70%)" y="var(--ay, 46%)" dir="dl" rotar="-6deg" ancho="4.5rem" girar="10deg" />
   </div>
 </section>
