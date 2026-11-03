@@ -42,12 +42,27 @@ if (cine && !reduceMotion.matches) {
   const PUERTA = { x: 480, y: 380, w: 130, h: 340 };
   let vb = [-300, 0, 1500, 800], recorta = false;
 
-  // Encuadre según la orientación: en vertical, puerta y letrero; en horizontal, toda la fachada.
+  // En horizontal se ve toda la fachada. En vertical, el dibujo se escala para que el letrero
+  // quede siempre debajo del titular y la puerta por encima de la barra de pedido.
   const encuadrar = () => {
-    const vertical = innerWidth / innerHeight < 1;
-    vb = vertical ? [400, -63, 402, 870] : [-300, 0, 1500, 800];
+    const W = innerWidth, H = Math.max(innerHeight, 576);
+    const vertical = W / H < 1;
     recorta = vertical;
-    svg.setAttribute('viewBox', vb.join(' '));
+    if (vertical) {
+      const ancho = W >= 1024;
+      const letra = ancho ? Math.min(Math.max(96, W * 0.11), 200) : Math.min(Math.max(54.4, W * 0.19), 192);
+      const cabecera = ancho ? 76 : 64;
+      const kicker = W < 380 ? 36 : 18;
+      const finTitulo = cabecera + 20 + kicker + 12 + letra * 0.88 * (ancho ? 2 : 1);
+      const arriba = finTitulo + 22;
+      const abajo = H - (ancho ? 0 : 72) - 12;
+      const k = (abajo - arriba) / (720 - 174); // del borde del letrero (y=174) al suelo (y=720)
+      vb = [591 - W / (2 * k), 174 - arriba / k, W / k, H / k];
+      stage.style.setProperty('--fin-titulo', `${finTitulo}px`);
+    } else {
+      vb = [-300, 0, 1500, 800];
+    }
+    svg.setAttribute('viewBox', vb.map((n) => n.toFixed(1)).join(' '));
     svg.setAttribute('preserveAspectRatio', vertical ? 'xMidYMid slice' : 'xMidYMid meet');
   };
 

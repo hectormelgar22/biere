@@ -87,7 +87,7 @@ const cuando = cerrados.length ? `todos los días menos el ${cerrados.join(' y e
             <li class="cine__plato" style={`--i:${i}`}>
               <figure>
                 <div class="frame">
-                  <Picture src={foto(s.foto)} formats={['avif', 'webp']} widths={[280, 420, 560]} sizes="(min-width: 1024px) 15vw, 30vw" quality={52} loading="lazy" decoding="async" alt={s.alt} />
+                  <Picture src={foto(s.foto)} formats={['avif', 'webp']} widths={[280, 420, 560, 720, 820]} sizes="(min-width: 1024px) 32vw, 30vw" quality={52} loading="lazy" decoding="async" alt={s.alt} />
                 </div>
                 <figcaption class="mano">{s.pie}</figcaption>
               </figure>
