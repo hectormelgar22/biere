@@ -59,6 +59,7 @@ const fontFaces = `
     <link rel="apple-touch-icon" href={url('apple-touch-icon.png')} />
     <link rel="manifest" href={url('site.webmanifest')} />
 
+    <slot name="head" />
     <link rel="preload" href={leagueGothic} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={instrumentSans} as="font" type="font/woff2" crossorigin />
     <style is:inline set:html={fontFaces}></style>

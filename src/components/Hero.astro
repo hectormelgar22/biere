@@ -9,6 +9,7 @@ import { foto, negocio, url } from '../lib/site';
 // Sin JavaScript o con "reducir movimiento" se muestra directamente el interior (última escena).
 
 // Interior: en vertical (móvil) la barra con copas y grifos; en horizontal, la pared de botellas.
+const { fachada } = Astro.props as { fachada: string };
 const MOVIL = '(max-aspect-ratio: 1/1)';
 const [vAvif, vWebp, hAvif, hWebp, fallback] = await Promise.all([
   getImage({ src: foto('interior-barra'), format: 'avif', widths: [480, 765], quality: 48 }),
@@ -42,8 +43,8 @@ const cuando = cerrados.length ? `todos los días menos el ${cerrados.join(' y e
           width={fallback.attributes.width}
           height={fallback.attributes.height}
           alt="La barra de BIÉRE por dentro: copas colgadas, grifos de cerveza y la pared de botellas."
-          fetchpriority="high"
           loading="eager"
+          fetchpriority="low"
         />
       </picture>
       <div class="cine__sombra" aria-hidden="true"></div>
@@ -51,7 +52,7 @@ const cuando = cerrados.length ? `todos los días menos el ${cerrados.join(' y e
 
     <!-- La calle: fachada dibujada -->
     <div class="cine__calle">
-      <Fachada />
+      <Fachada imagen={fachada} />
     </div>
 
     <div class="cine__intro" aria-hidden="true">
@@ -87,7 +88,7 @@ const cuando = cerrados.length ? `todos los días menos el ${cerrados.join(' y e
             <li class="cine__plato" style={`--i:${i}`}>
               <figure>
                 <div class="frame">
-                  <Picture src={foto(s.foto)} formats={['avif', 'webp']} widths={[280, 420, 560, 720, 820]} sizes="(min-width: 1024px) 32vw, 30vw" quality={52} loading="lazy" decoding="async" alt={s.alt} />
+                  <Picture src={foto(s.foto)} formats={['avif', 'webp']} widths={[280, 420, 560, 720, 820]} sizes="(min-width: 1024px) 32vw, 30vw" quality={52} loading="lazy" fetchpriority="low" decoding="async" alt={s.alt} />
                 </div>
                 <figcaption class="mano">{s.pie}</figcaption>
               </figure>

@@ -9,7 +9,10 @@ import Ambiente from '../components/Ambiente.astro';
 import Opiniones from '../components/Opiniones.astro';
 import Visitanos from '../components/Visitanos.astro';
 import carta from '../data/carta.json';
-import { absoluta, negocio } from '../lib/site';
+import { getImage } from 'astro:assets';
+import { absoluta, foto, negocio } from '../lib/site';
+
+const fachada = await getImage({ src: foto('fachada-biere'), format: 'avif', width: 1672, quality: 50 });
 
 const title = 'BIÉRE | Bar y cocina venezolana en Cuenca: arepas, tequeños y cervezas';
 const description =
@@ -77,7 +80,8 @@ const restaurante = {
 };
 ---
 <Base title={title} description={description} schema={[restaurante]}>
-  <Hero />
+  <link slot="head" rel="preload" as="image" type="image/avif" href={fachada.src} fetchpriority="high" />
+  <Hero fachada={fachada.src} />
   <LaCasa />
   <Imprescindibles />
   <Carta />
